@@ -56,7 +56,7 @@ You need to tell RubyGems the filename of the gem you want to compile:
 The above command will unpack, compile any existing extensions found and
 generate a pre-compiled binary:
 
-    Unpacking gem: 'yajl-ruby-1.1.0'
+    Unpacking gem: 'yajl-ruby-1.1.0' in temporary directory...
     Building native extensions.  This could take a while...
       Successfully built RubyGem
       Name: yajl-ruby

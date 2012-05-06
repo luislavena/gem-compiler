@@ -36,7 +36,7 @@ class Gem::Compiler
 
     # unpack gem sources into target_dir
     # We need the basename to keep the unpack happy
-    say "Unpacking '#{basename}' in temporary directory..." if Gem.configuration.verbose
+    say "Unpacking gem: '#{basename}' in temporary directory..." if Gem.configuration.verbose
     installer.unpack(target_dir)
 
     # build extensions
