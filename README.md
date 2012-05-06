@@ -83,7 +83,7 @@ task "gem:native" => ["gem"] do
 end
 ```
 
-Of couse, that assusems you have a task `gem` that generates the gem needed
+Of course, that assumes you have a task `gem` that generates the gem needed
 by this task.
 
 ## Requirements
