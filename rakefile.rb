@@ -25,7 +25,7 @@ EOF
   s.required_rubygems_version = ">= 1.8.24"
 
   # boring part
-  s.files = FileList["README.md", "rakefile.rb", "lib/**/*.rb"]
+  s.files = FileList["README.md", "History.md", "rakefile.rb", "lib/**/*.rb"]
 end
 
 Gem::PackageTask.new(gemspec) do |pkg|
