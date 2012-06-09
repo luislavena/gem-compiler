@@ -67,7 +67,7 @@ This new gem do not require a compiler, as shown when locally installed:
 
 ### Compiling from Rake
 
-Most of the times, as gem developer, you would like to genrate both kind of
+Most of the times, as gem developer, you would like to generate both kind of
 gems at once. For that purpose, you can add a task for Rake similar to the
 one below:
 
