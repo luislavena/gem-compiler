@@ -136,13 +136,13 @@ projects by snapping your fingers :wink:
 The following are the list of features I would like to implement at some
 point:
 
-* Cross compile gems to any platform that Ruby can run
+- Cross compile gems to any platform that Ruby can run
 (e.g. from Linux/OSX to Windows, x86 to x64, x86 Linux to ARM Linux, etc)
 
-* Create multiple gems from the same build
+- Create multiple gems from the same build
 (e.g. target both x86-mswin32-60 and x86-mingw32)
 
-* Ability to build fat-binaries targeting both Ruby 1.8 and 1.9.x,
+- Ability to build fat-binaries targeting both Ruby 1.8 and 1.9.x,
 placing automatic stubs to handle extension loading.
 
 ## License
@@ -150,7 +150,7 @@ placing automatic stubs to handle extension loading.
 (The MIT License)
 
     Copyright (c) Luis Lavena
-    
+
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
     'Software'), to deal in the Software without restriction, including
@@ -158,10 +158,10 @@ placing automatic stubs to handle extension loading.
     distribute, sublicense, and/or sell copies of the Software, and to
     permit persons to whom the Software is furnished to do so, subject to
     the following conditions:
-    
+
     The above copyright notice and this permission notice shall be
     included in all copies or substantial portions of the Software.
-    
+
     THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
