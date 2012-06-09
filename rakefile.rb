@@ -1,4 +1,5 @@
 require "rubygems/package_task"
+require "rake/testtask"
 
 gemspec = Gem::Specification.new do |s|
   # basic
@@ -29,4 +30,9 @@ EOF
 end
 
 Gem::PackageTask.new(gemspec) do |pkg|
+end
+
+Rake::TestTask.new do |t|
+  t.pattern = "test/**/test*.rb"
+  t.verbose = true
 end
