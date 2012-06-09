@@ -7,11 +7,11 @@ gemspec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
 
   # description
-  s.summary     = "A RubyGems plugin that generates binary pre-compiled gems."
+  s.summary     = "A RubyGems plugin that generates binary gems."
   s.description = <<-EOF
-A RubyGems plugin that helps generates binary pre-compiled gems from
-already existing ones without altering the original gem source code.
-It is aimed at the pre-compilation of Ruby C extensions.
+A RubyGems plugin that helps generates binary gems from already existing
+ones without altering the original source code. It compiles Ruby C
+extensions and bundles the result into a new gem.
 EOF
 
   # project info
