@@ -20,7 +20,7 @@ class Gem::Commands::CompileCommand < Gem::Command
     # no gem, no binary
     unless gemfile
       raise Gem::CommandLineError,
-            "Please specify a gem file on the command line (e.g. #{program_name} foo-0.1.0.gem"
+            "Please specify a gem file on the command line (e.g. #{program_name} foo-0.1.0.gem)"
     end
 
     require "rubygems/compiler"
