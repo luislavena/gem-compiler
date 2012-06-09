@@ -11,8 +11,12 @@ class TestGemCommandsCompileCommand < Gem::TestCase
   def test_execute_no_gem
     @cmd.options[:args] = []
 
-    assert_raises Gem::CommandLineError do
-      @cmd.execute
+    e = assert_raises Gem::CommandLineError do
+      use_ui @ui do
+        @cmd.execute
+      end
     end
+
+    assert_match(/Please specify a gem file on the command line/, e.message)
   end
 end
