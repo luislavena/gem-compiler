@@ -1,20 +1,20 @@
 # gem-compiler
 
-A RubyGems plugin that generates binary pre-compiled gems.
+A RubyGems plugin that generates binary (pre-compiled) gems.
 
 - [home](https://github.com/luislavena/gem-compiler)
 - [bugs](https://github.com/luislavena/gem-compiler/issues)
 
 ## Description
 
-`gem-compiler` is a RubyGems plugin that helps generates binary pre-compiled
-gems from already existing ones without altering the original gem source
-code. It is aimed at the pre-compilation of Ruby C extensions.
+`gem-compiler` is a RubyGems plugin that helps generates binary gems from
+already existing ones without altering the original source code. It compiles
+Ruby C extensions and bundles the result into a new gem.
 
 It uses an *outside-in* approach and leverages on existing RubyGems code to
 do it.
 
-The result of the compilation is a gem built for your current platform,
+The result of the compilation is a binary gem built for your current platform,
 skipping the need of a compiler toolchain when installing it.
 
 ## Installation
@@ -26,14 +26,10 @@ To install gem-compiler you need to use RubyGems:
 Which will fetch and install the plugin. After that the `compile` command
 will be available through `gem`.
 
-## Features
-
-gem-compiler is a one trick pony. It adds a single command `compile` to
-RubyGems.
-
-Using that command, you can generate a binary from an existing gem.
-
 ## Usage
+
+As requirement, gem-compiler can only compile local gems, either one you have
+generated from your projects or previously downloaded.
 
 ### Fetching a gem
 
@@ -43,8 +39,8 @@ If you don't have the gem locally, you can use `fetch` to retrieve it first:
     Fetching: yajl-ruby-1.1.0.gem (100%)
     Downloaded yajl-ruby-1.1.0
 
-Please note that I was specific about which gem to fetch. This will avoid
-RubyGems attempt to download any existing pre-compiled gem for my current
+Please note that I was explicit about which platform to fetch. This will
+avoid RubyGems attempt to download any existing binary gem for my current
 platform.
 
 ### Compiling a gem
@@ -54,7 +50,7 @@ You need to tell RubyGems the filename of the gem you want to compile:
     $ gem compile yajl-ruby-1.1.0.gem
 
 The above command will unpack, compile any existing extensions found and
-generate a pre-compiled binary:
+repackage everything as a binary gem:
 
     Unpacking gem: 'yajl-ruby-1.1.0' in temporary directory...
     Building native extensions.  This could take a while...
@@ -63,8 +59,7 @@ generate a pre-compiled binary:
       Version: 1.1.0
       File: yajl-ruby-1.1.0-x86-mingw32.gem
 
-You can now simply install the pre-compiled gem and it will not trigger any
-build process:
+This new gem do not require a compiler, as shown when locally installed:
 
     C:\> gem install --local yajl-ruby-1.1.0-x86-mingw32.gem
     Successfully installed yajl-ruby-1.1.0-x86-mingw32
@@ -83,8 +78,8 @@ task "gem:native" => ["gem"] do
 end
 ```
 
-Of course, that assumes you have a task `gem` that generates the gem needed
-by this task.
+Of course, that assumes you have a task `gem` that generates the base gem
+required.
 
 ## Requirements
 
@@ -107,8 +102,8 @@ right one.
 ### If you're using Windows
 
 For those using RubyInstaller-based builds, you will need to download the
-DevKit from our [downloads page](http://rubyinstaller.org/downloads) and
-follow the [installation instructions](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit).
+DevKit from their [downloads page](http://rubyinstaller.org/downloads)
+and follow the [installation instructions](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit).
 
 To be sure your installation of Ruby is based on RubyInstaller, execute at
 the command prompt:
