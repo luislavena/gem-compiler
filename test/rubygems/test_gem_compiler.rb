@@ -71,10 +71,11 @@ class TestGemCompiler < Gem::TestCase
   end
 
   ##
-  # Add a fake (no-op) extension to provided spec
+  # Add a fake extension to provided spec and yield the open file to the
+  # configure script, allowing optional customization of such script.
 
-  def util_fake_extension(spec)
-    mkrf_conf = File.join("ext", "a", "mkrf_conf.rb")
+  def util_fake_extension(spec, name = "a")
+    mkrf_conf = File.join("ext", name, "mkrf_conf.rb")
 
     spec.extensions << mkrf_conf
 
@@ -84,9 +85,13 @@ class TestGemCompiler < Gem::TestCase
     Dir.chdir dir do
       FileUtils.mkdir_p File.dirname(mkrf_conf)
       File.open mkrf_conf, "w" do |f|
-        f << <<-EOF
-          File.open 'Rakefile', 'w' do |rf| rf.puts "task :default" end
-        EOF
+        if block_given?
+          yield f
+        else
+          f.write <<-EOF
+            File.open 'Rakefile', 'w' do |rf| rf.puts "task :default" end
+          EOF
+        end
       end
     end
   end
