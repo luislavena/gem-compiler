@@ -1,5 +1,4 @@
 require "rubygems/package_task"
-require "rake/testtask"
 
 gemspec = Gem::Specification.new do |s|
   # basic
@@ -32,7 +31,12 @@ end
 Gem::PackageTask.new(gemspec) do |pkg|
 end
 
-Rake::TestTask.new do |t|
-  t.pattern = "test/**/test*.rb"
-  t.verbose = true
+desc "Run tests"
+task :test do
+  lib_dirs = ["lib", "test"].join(File::PATH_SEPARATOR)
+  test_files = FileList["test/**/test*.rb"].gsub("test/", "")
+
+  ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
 end
+
+task :default => [:test]
