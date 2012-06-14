@@ -59,6 +59,26 @@ class TestGemCompiler < Gem::TestCase
     assert_path_exists File.join(@output_dir, "a-1-x86-mingw32.gem")
   end
 
+  # TODO: check artifacts are inside the new gem.
+  def test_compile_bundle_artifacts
+    util_reset_arch
+
+    artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
+
+    gem_file = util_bake_gem("foo") { |s|
+      util_fake_extension s, "foo", util_custom_configure(artifact)
+    }
+
+    compiler = Gem::Compiler.new(gem_file, @output_dir)
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    assert_path_exists File.join(@output_dir, output_gem)
+  end
+
   ##
   # Create a real gem and return the path to it.
 
