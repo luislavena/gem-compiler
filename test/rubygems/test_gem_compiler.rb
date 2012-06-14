@@ -95,4 +95,23 @@ class TestGemCompiler < Gem::TestCase
       end
     end
   end
+
+  ##
+  # Constructor of custom configure script to be used with
+  # +util_fake_extension+
+  #
+  # Provided +target+ will be used to fake an empty file at default task
+
+  def util_custom_configure(target)
+    <<-EO_MKRF
+      File.open("Rakefile", "w") do |f|
+        f.puts <<-EOF
+          task :default do
+            lib_dir = ENV["RUBYARCHDIR"] || ENV["RUBYLIBDIR"]
+            touch File.join(lib_dir, #{target.inspect})
+          end
+        EOF
+      end
+    EO_MKRF
+  end
 end
