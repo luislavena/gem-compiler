@@ -62,10 +62,10 @@ class TestGemCompiler < Gem::TestCase
   ##
   # Create a real gem and return the path to it.
 
-  def util_bake_gem(*extra, &block)
-    files = ["lib/a.rb"].concat(extra)
+  def util_bake_gem(name = "a", *extra, &block)
+    files = ["lib/#{name}.rb"].concat(extra)
 
-    spec = new_spec "a", "1", nil, files, &block
+    spec = new_spec name, "1", nil, files, &block
 
     File.join @tempdir, "gems", "#{spec.full_name}.gem"
   end
