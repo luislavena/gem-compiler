@@ -80,6 +80,14 @@ class TestGemCompiler < Gem::TestCase
   end
 
   ##
+  # Reset RubyGems platform to original one. Useful when testing platform
+  # specific features (like compiled extensions)
+
+  def util_reset_arch
+    util_set_arch @orig_arch
+  end
+
+  ##
   # Create a real gem and return the path to it.
 
   def util_bake_gem(name = "a", *extra, &block)
