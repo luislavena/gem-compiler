@@ -77,6 +77,9 @@ class TestGemCompiler < Gem::TestCase
     end
 
     assert_path_exists File.join(@output_dir, output_gem)
+    spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_equal true, spec.files.include?("lib/#{artifact}")
   end
 
   ##
@@ -141,5 +144,14 @@ class TestGemCompiler < Gem::TestCase
         EOF
       end
     EO_MKRF
+  end
+
+  ##
+  # Return the metadata (spec) from the supplied filename. IO from filename
+  # is closed automatically
+
+  def util_read_spec(filename)
+    io = File.open(filename, "rb")
+    Gem::Package.open(io, "r") { |x| x.metadata }
   end
 end
