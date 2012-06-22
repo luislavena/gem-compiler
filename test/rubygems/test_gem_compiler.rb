@@ -59,7 +59,6 @@ class TestGemCompiler < Gem::TestCase
     assert_path_exists File.join(@output_dir, "a-1-x86-mingw32.gem")
   end
 
-  # TODO: check artifacts are inside the new gem.
   def test_compile_bundle_artifacts
     util_reset_arch
 
@@ -79,7 +78,7 @@ class TestGemCompiler < Gem::TestCase
     assert_path_exists File.join(@output_dir, output_gem)
     spec = util_read_spec File.join(@output_dir, output_gem)
 
-    assert_equal true, spec.files.include?("lib/#{artifact}")
+    assert_includes spec.files, "lib/#{artifact}"
   end
 
   ##
