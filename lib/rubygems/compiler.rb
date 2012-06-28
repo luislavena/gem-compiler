@@ -36,7 +36,7 @@ class Gem::Compiler
 
     # unpack gem sources into target_dir
     # We need the basename to keep the unpack happy
-    say "Unpacking gem: '#{basename}' in temporary directory..." if Gem.configuration.verbose
+    info "Unpacking gem: '#{basename}' in temporary directory..."
     installer.unpack(target_dir)
 
     # build extensions
@@ -56,7 +56,7 @@ class Gem::Compiler
       # path needs to be relative to target_dir
       file = path.gsub("#{target_dir}/", "")
 
-      say "Adding '#{file}' to gemspec" if Gem.configuration.really_verbose
+      debug "Adding '#{file}' to gemspec"
       gemspec.files.push file
     end
 
@@ -87,5 +87,15 @@ class Gem::Compiler
 
     # return the path of the gem
     output_gem
+  end
+
+  private
+
+  def info(msg)
+    say msg if Gem.configuration.verbose
+  end
+
+  def debug(msg)
+    say msg if Gem.configuration.really_verbose
   end
 end
