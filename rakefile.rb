@@ -26,7 +26,7 @@ EOF
 
   # development dependencies
   s.add_development_dependency 'rake', '~> 0.9.2.2'
-  s.add_development_dependency 'minitest', '~> 3.0'
+  s.add_development_dependency 'minitest', '~> 3.2'
 
   # boring part
   s.files = FileList["README.md", "History.md", "rakefile.rb",
