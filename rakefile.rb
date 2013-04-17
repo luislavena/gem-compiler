@@ -44,7 +44,6 @@ task :test do
   if ENV["TRAVIS"] && ENV["CI"] && RUBY_VERSION < "2.0.0"
     %w(1.8.25 2.0.3).each do |version|
       sh "gem update --system #{version}"
-      sh "RubyGems `gem --version`"
       ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
     end
   else
