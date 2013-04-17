@@ -49,7 +49,7 @@ end
 
 desc "Sets up the test environment"
 task :setup do
-  if ENV["USE_RUBYGEMS"] && (!ENV["UPTO_RUBY"] || RUBY_VERSION < "#{ENV["UPTO_RUBY"]}")
+  if ENV["USE_RUBYGEMS"]
     sh "gem update -q --system #{ENV["USE_RUBYGEMS"]}"
     puts "Using RubyGems #{`gem --version`}"
   end
