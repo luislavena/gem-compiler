@@ -41,13 +41,14 @@ task :test do
   lib_dirs = ["lib", "test"].join(File::PATH_SEPARATOR)
   test_files = FileList["test/**/test*.rb"].gsub("test/", "")
 
-  if ENV["TRAVIS"] && ENV["CI"] && RUBY_VERSION < "2.0.0"
-    %w(1.8.25 2.0.3).each do |version|
-      sh "gem update --system #{version}"
-      ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
-    end
-  else
-    ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
+  ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
+end
+
+desc "Sets up the test environment"
+task :setup do
+  if ENV["USE_RUBYGEMS"] && (!ENV["UPTO_RUBY"] || RUBY_VERSION < "#{ENV["UPTO_RUBY"]}")
+    sh "gem update -q --system #{ENV["USE_RUBYGEMS"]}"
+    puts "Using RubyGems #{`gem --version`}"
   end
 end
 
