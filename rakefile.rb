@@ -41,7 +41,15 @@ task :test do
   lib_dirs = ["lib", "test"].join(File::PATH_SEPARATOR)
   test_files = FileList["test/**/test*.rb"].gsub("test/", "")
 
-  ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
+  if ENV["TRAVIS"] && ENV["CI"] && RUBY_VERSION < "2.0.0"
+    %q(1.8.25 2.0.3).each do |version|
+      sh "gem update --system #{version}"
+      sh "RubyGems `gem --version`"
+      ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
+    end
+  else
+    ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
+  end
 end
 
 task :default => [:test]
