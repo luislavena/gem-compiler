@@ -12,7 +12,7 @@ class TestGemCompiler < Gem::TestCase
   def test_compile_no_extensions
     gem_file = util_bake_gem
 
-    compiler = Gem::Compiler.new(gem_file, @output_dir)
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
     e = assert_raises Gem::Compiler::CompilerError do
       use_ui @ui do
@@ -27,7 +27,7 @@ class TestGemCompiler < Gem::TestCase
   def test_compile_non_ruby
     gem_file = util_bake_gem { |s| s.platform = Gem::Platform::CURRENT }
 
-    compiler = Gem::Compiler.new(gem_file, @output_dir)
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
     e = assert_raises Gem::Compiler::CompilerError do
       use_ui @ui do
@@ -45,7 +45,7 @@ class TestGemCompiler < Gem::TestCase
       util_fake_extension spec
     }
 
-    compiler = Gem::Compiler.new(gem_file, @output_dir)
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
     use_ui @ui do
       compiler.compile
@@ -68,7 +68,7 @@ class TestGemCompiler < Gem::TestCase
       util_fake_extension s, "foo", util_custom_configure(artifact)
     }
 
-    compiler = Gem::Compiler.new(gem_file, @output_dir)
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
     output_gem = nil
 
     use_ui @ui do

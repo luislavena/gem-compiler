@@ -10,11 +10,12 @@ class Gem::Compiler
   # raise when there is a error
   class CompilerError < Gem::InstallError; end
 
-  attr_reader :tmp_dir, :target_dir
+  attr_reader :tmp_dir, :target_dir, :options
 
-  def initialize(gemfile, output_dir)
+  def initialize(gemfile, _options = {})
     @gemfile    = gemfile
-    @output_dir = output_dir
+    @output_dir = _options.delete(:output)
+    @options    = _options
   end
 
   def compile
@@ -82,7 +83,7 @@ class Gem::Compiler
   def installer
     return @installer if @installer
 
-    @installer = Gem::Installer.new(@gemfile, :unpack => true)
+    @installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
 
     # Hmm, gem already compiled?
     if @installer.spec.platform != Gem::Platform::RUBY
