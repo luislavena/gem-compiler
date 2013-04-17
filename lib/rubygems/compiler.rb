@@ -1,7 +1,13 @@
 require "rbconfig"
 require "tmpdir"
 require "rubygems/installer"
-require "rubygems/builder"
+
+unless Gem::VERSION >= "2.0.0"
+  require "rubygems/builder"
+else
+  require "rubygems/package"
+end
+
 require "fileutils"
 
 class Gem::Compiler
@@ -52,8 +58,11 @@ class Gem::Compiler
     output_gem = nil
 
     Dir.chdir target_dir do
-      builder = Gem::Builder.new(gemspec)
-      output_gem = builder.build
+      output_gem = if defined?(Gem::Builder)
+        Gem::Builder.new(gemspec).build
+      else
+        Gem::Package.build(gemspec)
+      end
     end
 
     unless output_gem

@@ -3,7 +3,7 @@ require "rubygems/package_task"
 gemspec = Gem::Specification.new do |s|
   # basic
   s.name     = "gem-compiler"
-  s.version  = "0.1.1"
+  s.version  = "0.1.2"
   s.platform = Gem::Platform::RUBY
 
   # description

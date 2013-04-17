@@ -150,7 +150,11 @@ class TestGemCompiler < Gem::TestCase
   # is closed automatically
 
   def util_read_spec(filename)
-    io = File.open(filename, "rb")
-    Gem::Package.open(io, "r") { |x| x.metadata }
+    unless Gem::VERSION >= "2.0.0"
+      io = File.open(filename, "rb")
+      Gem::Package.open(io, "r") { |x| x.metadata }
+    else
+      Gem::Package.new(filename).spec
+    end
   end
 end
