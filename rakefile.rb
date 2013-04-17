@@ -41,6 +41,9 @@ task :test do
   lib_dirs = ["lib", "test"].join(File::PATH_SEPARATOR)
   test_files = FileList["test/**/test*.rb"].gsub("test/", "")
 
+  puts "Ruby #{RUBY_VERSION}"
+  puts "RubyGems #{Gem::VERSION}"
+
   ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
 end
 
