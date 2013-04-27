@@ -25,7 +25,7 @@ class Gem::Commands::CompileCommand < Gem::Command
 
     require "rubygems/compiler"
 
-    compiler = Gem::Compiler.new(gemfile, options[:output])
+    compiler = Gem::Compiler.new(gemfile, options)
     compiler.compile
   end
 end

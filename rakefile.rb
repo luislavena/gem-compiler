@@ -3,7 +3,7 @@ require "rubygems/package_task"
 gemspec = Gem::Specification.new do |s|
   # basic
   s.name     = "gem-compiler"
-  s.version  = "0.1.1"
+  s.version  = "0.1.2"
   s.platform = Gem::Platform::RUBY
 
   # description
@@ -41,7 +41,18 @@ task :test do
   lib_dirs = ["lib", "test"].join(File::PATH_SEPARATOR)
   test_files = FileList["test/**/test*.rb"].gsub("test/", "")
 
+  puts "Ruby #{RUBY_VERSION}"
+  puts "RubyGems #{Gem::VERSION}"
+
   ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
+end
+
+desc "Sets up the test environment"
+task :setup do
+  if ENV["USE_RUBYGEMS"]
+    sh "gem update -q --system #{ENV["USE_RUBYGEMS"]}"
+    puts "Using RubyGems #{`gem --version`}"
+  end
 end
 
 task :default => [:test]

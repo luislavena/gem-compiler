@@ -1,7 +1,13 @@
 require "rbconfig"
 require "tmpdir"
 require "rubygems/installer"
-require "rubygems/builder"
+
+unless Gem::VERSION >= "2.0.0"
+  require "rubygems/builder"
+else
+  require "rubygems/package"
+end
+
 require "fileutils"
 
 class Gem::Compiler
@@ -10,11 +16,12 @@ class Gem::Compiler
   # raise when there is a error
   class CompilerError < Gem::InstallError; end
 
-  attr_reader :tmp_dir, :target_dir
+  attr_reader :tmp_dir, :target_dir, :options
 
-  def initialize(gemfile, output_dir)
+  def initialize(gemfile, _options = {})
     @gemfile    = gemfile
-    @output_dir = output_dir
+    @output_dir = _options.delete(:output)
+    @options    = _options
   end
 
   def compile
@@ -51,8 +58,11 @@ class Gem::Compiler
     output_gem = nil
 
     Dir.chdir target_dir do
-      builder = Gem::Builder.new(gemspec)
-      output_gem = builder.build
+      output_gem = if defined?(Gem::Builder)
+        Gem::Builder.new(gemspec).build
+      else
+        Gem::Package.build(gemspec)
+      end
     end
 
     unless output_gem
@@ -82,7 +92,7 @@ class Gem::Compiler
   def installer
     return @installer if @installer
 
-    @installer = Gem::Installer.new(@gemfile, :unpack => true)
+    @installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
 
     # Hmm, gem already compiled?
     if @installer.spec.platform != Gem::Platform::RUBY
