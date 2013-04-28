@@ -1,6 +1,6 @@
 # gem-compiler
 
-## (in Git)
+## 0.2.0 (2013-04-28)
 
 - Support RubyGems 2.0.0 thanks to @mgoggin [#6]
 
