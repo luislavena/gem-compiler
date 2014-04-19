@@ -1,14 +1,13 @@
+require "fileutils"
 require "rbconfig"
 require "tmpdir"
 require "rubygems/installer"
 
-unless Gem::VERSION >= "2.0.0"
-  require "rubygems/builder"
-else
+if Gem::VERSION >= "2.0.0"
   require "rubygems/package"
+else
+  require "rubygems/builder"
 end
-
-require "fileutils"
 
 class Gem::Compiler
   include Gem::UserInteraction
