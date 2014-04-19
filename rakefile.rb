@@ -1,37 +1,6 @@
 require "rubygems/package_task"
 
-gemspec = Gem::Specification.new do |s|
-  # basic
-  s.name     = "gem-compiler"
-  s.version  = "0.2.0"
-  s.platform = Gem::Platform::RUBY
-
-  # description
-  s.summary     = "A RubyGems plugin that generates binary gems."
-  s.description = <<-EOF
-A RubyGems plugin that helps generates binary gems from already existing
-ones without altering the original source code. It compiles Ruby C
-extensions and bundles the result into a new gem.
-EOF
-
-  # project info
-  s.homepage = "https://github.com/luislavena/gem-compiler"
-  s.licenses = ["MIT"]
-  s.author   = "Luis Lavena"
-  s.email    = "luislavena@gmail.com"
-
-  # requirements
-  s.required_ruby_version     = ">= 1.8.7"
-  s.required_rubygems_version = ">= 1.8.24"
-
-  # development dependencies
-  s.add_development_dependency 'rake', '~> 0.9.2.2'
-  s.add_development_dependency 'minitest', '~> 3.2'
-
-  # boring part
-  s.files = FileList["README.md", "History.md", "rakefile.rb",
-                      "lib/**/*.rb", "test/**/test*.rb"]
-end
+gemspec = Gem::Specification.load("gem-compiler.gemspec")
 
 Gem::PackageTask.new(gemspec) do |pkg|
 end
