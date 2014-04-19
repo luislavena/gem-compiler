@@ -1,5 +1,10 @@
 # gem-compiler
 
+## (In Git)
+
+- Support RubyGems 2.2.x thanks to @drbrain
+- Minor reorganization to make testing on Travis more easy
+
 ## 0.2.0 (2013-04-28)
 
 - Support RubyGems 2.0.0 thanks to @mgoggin [#6]
