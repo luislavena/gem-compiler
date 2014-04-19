@@ -1,14 +1,13 @@
+require "fileutils"
 require "rbconfig"
 require "tmpdir"
 require "rubygems/installer"
 
-unless Gem::VERSION >= "2.0.0"
-  require "rubygems/builder"
-else
+if Gem::VERSION >= "2.0.0"
   require "rubygems/package"
+else
+  require "rubygems/builder"
 end
-
-require "fileutils"
 
 class Gem::Compiler
   include Gem::UserInteraction
@@ -92,21 +91,27 @@ class Gem::Compiler
   def installer
     return @installer if @installer
 
-    @installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
+    installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
+
+    # RubyGems 2.2 specifics
+    if installer.spec.respond_to?(:full_gem_path=)
+      installer.spec.full_gem_path = @target_dir
+      installer.spec.extension_dir = File.join(@target_dir, "lib")
+    end
 
     # Hmm, gem already compiled?
-    if @installer.spec.platform != Gem::Platform::RUBY
+    if installer.spec.platform != Gem::Platform::RUBY
       raise CompilerError,
             "The gem file seems to be compiled already."
     end
 
     # Hmm, no extensions?
-    if @installer.spec.extensions.empty?
+    if installer.spec.extensions.empty?
       raise CompilerError,
             "There are no extensions to build on this gem file."
     end
 
-    @installer
+    @installer = installer
   end
 
   def tmp_dir
