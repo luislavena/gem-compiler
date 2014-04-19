@@ -10,6 +10,7 @@ rvm:
 env:
   - USE_RUBYGEMS="1.8.25"
   - USE_RUBYGEMS="2.0.3"
+  - USE_RUBYGEMS="2.2.2"
 matrix:
   exclude:
     - rvm: 2.0.0
