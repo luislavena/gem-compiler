@@ -93,6 +93,12 @@ class Gem::Compiler
 
     installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
 
+    # RubyGems 2.2 specifics
+    if installer.spec.respond_to?(:full_gem_path=)
+      installer.spec.full_gem_path = @target_dir
+      installer.spec.extension_dir = File.join(@target_dir, "lib")
+    end
+
     # Hmm, gem already compiled?
     if installer.spec.platform != Gem::Platform::RUBY
       raise CompilerError,
