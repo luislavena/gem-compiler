@@ -91,21 +91,21 @@ class Gem::Compiler
   def installer
     return @installer if @installer
 
-    @installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
+    installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
 
     # Hmm, gem already compiled?
-    if @installer.spec.platform != Gem::Platform::RUBY
+    if installer.spec.platform != Gem::Platform::RUBY
       raise CompilerError,
             "The gem file seems to be compiled already."
     end
 
     # Hmm, no extensions?
-    if @installer.spec.extensions.empty?
+    if installer.spec.extensions.empty?
       raise CompilerError,
             "There are no extensions to build on this gem file."
     end
 
-    @installer
+    @installer = installer
   end
 
   def tmp_dir
