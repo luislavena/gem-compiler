@@ -25,7 +25,7 @@ EOF
   spec.email    = "luislavena@gmail.com"
 
   # files
-  spec.files = Dir["README.md", "History.md", "rakefile.rb",
+  spec.files = Dir["README.md", "History.md", "Rakefile",
                 "lib/**/*.rb", "test/**/test*.rb"]
 
   # requirements
