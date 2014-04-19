@@ -8,14 +8,14 @@ rvm:
   - 2.1.1
   - ruby-head
 env:
-  - USE_RUBYGEMS="1.8.25"
-  - USE_RUBYGEMS="2.0.3"
+  - USE_RUBYGEMS="1.8.29"
+  - USE_RUBYGEMS="2.0.14"
   - USE_RUBYGEMS="2.2.2"
 matrix:
   exclude:
     - rvm: 2.0.0
-      env: USE_RUBYGEMS="1.8.25"
+      env: USE_RUBYGEMS="1.8.29"
     - rvm: 2.1.1
-      env: USE_RUBYGEMS="1.8.25"
+      env: USE_RUBYGEMS="1.8.29"
     - rvm: ruby-head
-      env: USE_RUBYGEMS="1.8.25"
+      env: USE_RUBYGEMS="1.8.29"
