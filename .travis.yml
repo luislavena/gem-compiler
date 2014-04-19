@@ -15,3 +15,7 @@ matrix:
   exclude:
     - rvm: 2.0.0
       env: USE_RUBYGEMS="1.8.25"
+    - rvm: 2.1.1
+      env: USE_RUBYGEMS="1.8.25"
+    - rvm: ruby-head
+      env: USE_RUBYGEMS="1.8.25"
