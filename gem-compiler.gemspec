@@ -33,6 +33,6 @@ EOF
   spec.required_rubygems_version = ">= 1.8.24"
 
   # development dependencies
-  spec.add_development_dependency "rake", "~> 0.9.2.2"
+  spec.add_development_dependency "rake", ">= 0.9.2.2"
   spec.add_development_dependency "minitest", "~> 4.0"
 end
