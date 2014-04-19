@@ -30,7 +30,7 @@ EOF
 
   # boring part
   s.files = FileList["README.md", "History.md", "rakefile.rb",
-                      "lib/**/*.rb", "test/**/test*.rb", ".gemtest"]
+                      "lib/**/*.rb", "test/**/test*.rb"]
 end
 
 Gem::PackageTask.new(gemspec) do |pkg|
