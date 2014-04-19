@@ -4,7 +4,7 @@ A RubyGems plugin that generates binary (pre-compiled) gems.
 
 [![Gem Version](https://badge.fury.io/rb/gem-compiler.svg)](http://badge.fury.io/rb/gem-compiler)
 [![Build Status](https://travis-ci.org/luislavena/gem-compiler.svg?branch=master)](https://travis-ci.org/luislavena/gem-compiler)
-[![Code Climate](https://codeclimate.com/github/luislavena/gem-compiler.png)](https://codeclimate.com/github/luislavena/gem-compiler)
+[![Code Climate](http://img.shields.io/codeclimate/github/luislavena/gem-compiler.svg)](https://codeclimate.com/github/luislavena/gem-compiler)
 
 - [home](https://github.com/luislavena/gem-compiler)
 - [bugs](https://github.com/luislavena/gem-compiler/issues)
