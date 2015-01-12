@@ -47,6 +47,13 @@ class Gem::Compiler
       gemspec.files.push file
     end
 
+    # if a .gitignore is present with an exlcusion of files ending
+    # with dlext extension, probably gemspec.files will not
+    # have the compiled files in the packed gem. Mysql2 gem is
+    # one of those gems.
+    extensions = gemspec.files.select { |file| file =~ /.#{dlext}$/ }.size
+    gemspec.files + Dir["lib/#{gemspec.name}/*.#{dlext}"]  if extensions == 0
+
     # clear out extensions from gemspec
     gemspec.extensions.clear
 
