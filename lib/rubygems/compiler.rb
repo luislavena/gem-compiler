@@ -47,6 +47,8 @@ class Gem::Compiler
       gemspec.files.push file
     end
 
+    gemspec.files = gemspec.files.select {|f| File.exists?("#{target_dir}/#{f}") } if @options[:purge]
+
     # clear out extensions from gemspec
     gemspec.extensions.clear
 
