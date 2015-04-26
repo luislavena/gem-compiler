@@ -37,6 +37,7 @@ class Gem::Compiler
 
     # build a new gemspec from the original one
     gemspec = installer.spec.dup
+    gemspec.files.reject! {|f| !File.exist?("#{target_dir}/#{f}")}
 
     # add discovered artifacts
     artifacts.each do |path|
@@ -46,8 +47,6 @@ class Gem::Compiler
       debug "Adding '#{file}' to gemspec"
       gemspec.files.push file
     end
-
-    gemspec.files = gemspec.files.select {|f| File.exists?("#{target_dir}/#{f}") } if @options[:purge]
 
     # clear out extensions from gemspec
     gemspec.extensions.clear
