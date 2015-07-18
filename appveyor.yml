@@ -1,0 +1,26 @@
+---
+version: "{build}"
+skip_tags: true
+clone_depth: 10
+
+install:
+  - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
+  - ruby --version
+  - gem --version
+  - gem install bundler --version "~> 1.10" --no-ri --no-rdoc
+  - bundle install --jobs=3 --retry=3
+
+test_script:
+  - bundle exec rake -rdevkit test
+
+build: off
+
+environment:
+  matrix:
+    - ruby_version: "193"
+    - ruby_version: "200"
+    - ruby_version: "200-x64"
+    - ruby_version: "21"
+    - ruby_version: "21-x64"
+    - ruby_version: "22"
+    - ruby_version: "22-x64"
