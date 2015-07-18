@@ -16,12 +16,4 @@ task :test do
   ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
 end
 
-desc "Sets up the test environment"
-task :setup do
-  if ENV["USE_RUBYGEMS"]
-    sh "gem update -q --system #{ENV["USE_RUBYGEMS"]}"
-    puts "Using RubyGems #{`gem --version`}"
-  end
-end
-
 task :default => [:test]
