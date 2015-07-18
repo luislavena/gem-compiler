@@ -11,7 +11,7 @@ install:
   - bundle install --jobs=3 --retry=3
 
 test_script:
-  - bundle exec rake -rdevkit test
+  - rake -rdevkit test
 
 build: off
 
