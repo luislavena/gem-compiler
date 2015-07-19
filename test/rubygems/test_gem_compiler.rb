@@ -59,7 +59,7 @@ class TestGemCompiler < Gem::TestCase
     assert_path_exists File.join(@output_dir, "a-1-x86-mingw32.gem")
   end
 
-  def test_compile_succeed_with_purge
+  def test_compile_succeed_using_prune
     name = 'a'
 
     artifact = "#{name}.#{RbConfig::CONFIG["DLEXT"]}"
@@ -74,7 +74,7 @@ class TestGemCompiler < Gem::TestCase
       EOF
     }
 
-    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :purge => true)
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :prune => true)
     output_gem = nil
 
     use_ui @ui do
@@ -84,7 +84,7 @@ class TestGemCompiler < Gem::TestCase
     assert_path_exists File.join(@output_dir, output_gem)
     actual_spec = util_read_spec File.join(@output_dir, output_gem)
 
-    assert (old_spec.files - actual_spec.files).include? "ports/to_be_deleted_during_ext_build.patch"
+    refute actual_spec.files.include? "ports/to_be_deleted_during_ext_build.patch"
   end
 
   def test_compile_bundle_artifacts

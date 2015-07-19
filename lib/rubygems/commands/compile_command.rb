@@ -5,8 +5,8 @@ class Gem::Commands::CompileCommand < Gem::Command
     super "compile", "Create binary pre-compiled gem",
       :output => Dir.pwd
 
-    add_option '--purge-package', 'Purges/Sanitizes the Gem Specification during re-packaging' do |value, options|
-      options[:purge] = true
+    add_option "--prune", "Clean non-existing files during re-packaging" do |value, options|
+      options[:prune] = true
     end
   end
 
