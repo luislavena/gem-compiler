@@ -59,6 +59,34 @@ class TestGemCompiler < Gem::TestCase
     assert_path_exists File.join(@output_dir, "a-1-x86-mingw32.gem")
   end
 
+  def test_compile_succeed_with_purge
+    name = 'a'
+
+    artifact = "#{name}.#{RbConfig::CONFIG["DLEXT"]}"
+    old_spec = ''
+
+    gem_file = util_bake_gem(name, 'ports/to_be_deleted_during_ext_build.patch') { |spec|
+      old_spec = spec
+      util_fake_extension spec, name, <<-EOF
+        require 'fileutils'
+        FileUtils.rm File.expand_path(File.join(File.dirname(__FILE__), '../../ports/to_be_deleted_during_ext_build.patch'))
+        #{util_custom_configure(artifact)}
+      EOF
+    }
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :purge => true)
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    assert_path_exists File.join(@output_dir, output_gem)
+    actual_spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert (old_spec.files - actual_spec.files).include? "ports/to_be_deleted_during_ext_build.patch"
+  end
+
   def test_compile_bundle_artifacts
     util_reset_arch
 

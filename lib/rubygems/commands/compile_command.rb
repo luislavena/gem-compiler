@@ -4,6 +4,10 @@ class Gem::Commands::CompileCommand < Gem::Command
   def initialize
     super "compile", "Create binary pre-compiled gem",
       :output => Dir.pwd
+
+    add_option '--purge-package', 'Purges/Sanitizes the Gem Specification during re-packaging' do |value, options|
+      options[:purge] = true
+    end
   end
 
   def arguments

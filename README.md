@@ -70,6 +70,29 @@ This new gem do not require a compiler, as shown when locally installed:
     Successfully installed yajl-ruby-1.1.0-x86-mingw32
     1 gem installed
 
+There are native gems that will invalidate their own specification after being built 
+that won't permit them being repackaged as a binary gem. To solve this problem you need 
+to pass the purge package flag like so:
+
+    $ gem fetch nokogiri --platform=ruby
+
+    Fetching: nokogiri-1.6.6.2.gem (100%)
+    Downloaded nokogiri-1.6.6.2
+
+    $ gem compile nokogiri-1.6.6.2.gem --purge-package
+ 
+    Unpacking gem: 'nokogiri-1.6.6.2' in temporary directory...
+    Building native extensions.  This could take a while...
+      Successfully built RubyGem
+      Name: nokogiri
+      Version: 1.6.6.2
+      File: nokogiri-1.6.6.2-x86_64-darwin-12.gem
+    
+    $ gem install --local nokogiri-1.6.6.2-x86_64-darwin-12.gem 
+
+    Successfully installed nokogiri-1.6.6.2-x86_64-darwin-12
+    1 gem installed
+
 ### Compiling from Rake
 
 Most of the times, as gem developer, you would like to generate both kind of
