@@ -1,5 +1,6 @@
 require "rubygems/test_case"
 require "rubygems/commands/compile_command"
+require "rubygems/package"
 
 class TestGemCommandsCompileCommand < Gem::TestCase
   def setup

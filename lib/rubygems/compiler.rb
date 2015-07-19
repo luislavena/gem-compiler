@@ -38,6 +38,11 @@ class Gem::Compiler
     # build a new gemspec from the original one
     gemspec = installer.spec.dup
 
+    # remove any non-existing files
+    if @options[:prune]
+      gemspec.files.reject! { |f| !File.exist?("#{target_dir}/#{f}") }
+    end
+
     # add discovered artifacts
     artifacts.each do |path|
       # path needs to be relative to target_dir

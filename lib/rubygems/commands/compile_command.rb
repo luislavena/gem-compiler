@@ -4,6 +4,10 @@ class Gem::Commands::CompileCommand < Gem::Command
   def initialize
     super "compile", "Create binary pre-compiled gem",
       :output => Dir.pwd
+
+    add_option "--prune", "Clean non-existing files during re-packaging" do |value, options|
+      options[:prune] = true
+    end
   end
 
   def arguments
