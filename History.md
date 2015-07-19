@@ -1,5 +1,10 @@
 # gem-compiler
 
+## 0.4.0 (2015-07-18)
+
+- Introduce `--prune` option to cleanup gemspecs. Thanks to @androbtech [#13]
+- Test builds on both Travis (Linux) and AppVeyor (Windows) environments.
+
 ## 0.3.0 (2014-04-19)
 
 - Support RubyGems 2.2.x thanks to @drbrain
