@@ -1,5 +1,9 @@
 # gem-compiler
 
+## Unreleased
+
+- Drop support for any Ruby version prior to 2.0.0
+
 ## 0.4.0 (2015-07-18)
 
 - Introduce `--prune` option to cleanup gemspecs. Thanks to @androbtech [#13]
