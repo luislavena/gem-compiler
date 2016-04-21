@@ -109,6 +109,51 @@ class TestGemCompiler < Gem::TestCase
     assert_includes spec.files, "lib/#{artifact}"
   end
 
+  def test_compile_bundle_artifacts_path_with_spaces
+    old_tempdir = @tempdir
+    old_output_dir = @output_dir
+
+    old_tmp = ENV["TMP"]
+    old_temp = ENV["TEMP"]
+    old_tmpdir = ENV["TMPDIR"]
+
+    @tempdir = File.join(@tempdir, "dir with spaces")
+    @output_dir = File.join(@tempdir, "output")
+    FileUtils.mkdir_p(@tempdir)
+    FileUtils.mkdir_p(@output_dir)
+
+    ENV["TMP"], ENV["TEMP"], ENV["TMPDIR"] = @tempdir
+
+    util_reset_arch
+
+    artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
+
+    gem_file = util_bake_gem("foo") { |s|
+      util_fake_extension s, "foo", util_custom_configure(artifact)
+    }
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    assert_path_exists File.join(@output_dir, output_gem)
+    spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_includes spec.files, "lib/#{artifact}"
+  ensure
+    FileUtils.rm_rf @tempdir
+
+    ENV["TMP"] = old_tmp
+    ENV["TEMP"] = old_temp
+    ENV["TMPDIR"] = old_tmpdir
+
+    @tempdir = old_tempdir
+    @output_dir = old_output_dir
+  end
+
   ##
   # Reset RubyGems platform to original one. Useful when testing platform
   # specific features (like compiled extensions)
