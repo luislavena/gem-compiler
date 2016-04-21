@@ -46,7 +46,7 @@ class Gem::Compiler
     # add discovered artifacts
     artifacts.each do |path|
       # path needs to be relative to target_dir
-      file = path.gsub("#{target_dir}/", "")
+      file = path.sub("#{target_dir}/", "")
 
       debug "Adding '#{file}' to gemspec"
       gemspec.files.push file
