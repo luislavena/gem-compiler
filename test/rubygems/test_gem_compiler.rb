@@ -110,10 +110,11 @@ class TestGemCompiler < Gem::TestCase
   end
 
   # We need to check that tempdir paths that contain spaces as are handled
-  # properly on Windows. In some cases, Dir.tmpdir may returned shorted
+  # properly on Windows. In some cases, Dir.tmpdir may returned shortened
   # versions of these components, e.g.  "C:/Users/JOHNDO~1/AppData/Local/Temp"
   # for "C:/Users/John Doe/AppData/Local/Temp".
   def test_compile_bundle_artifacts_path_with_spaces
+    skip("only necessary to test on Windows") unless Gem.win_platform?
     old_tempdir = @tempdir
     old_output_dir = @output_dir
 
@@ -131,7 +132,7 @@ class TestGemCompiler < Gem::TestCase
     # the last component, it will leave "DIRWIT~1" as-is.
     @tempdir = File.join(@tempdir, "dir with spaces", "tmp")
     FileUtils.mkdir_p(@tempdir)
-    @tempdir = File.join(old_tempdir, "DIRWIT~1", "tmp") if Gem.win_platform?
+    @tempdir = File.join(old_tempdir, "DIRWIT~1", "tmp")
 
     @output_dir = File.join(@tempdir, "output")
     FileUtils.mkdir_p(@output_dir)
@@ -139,7 +140,7 @@ class TestGemCompiler < Gem::TestCase
     ["TMP", "TEMP", "TMPDIR"].each { |varname| ENV[varname] = @tempdir }
 
     # Uncomment these two lines to check that the temp paths are unexpanded,
-    # i.e. that they still contain "DIRWIT~1" on Windows.
+    # i.e. that they still contain "DIRWIT~1".
     #puts "TMPDIR: #{@tempdir}"
     #puts "DIR.tmpdir: #{Dir.tmpdir}"
 
