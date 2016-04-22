@@ -120,7 +120,7 @@ class Gem::Compiler
   end
 
   def tmp_dir
-    @tmp_dir ||= File.expand_path(Dir.mktmpdir)
+    @tmp_dir ||= Dir.glob(Dir.mktmpdir).first
   end
 
   def unpack
