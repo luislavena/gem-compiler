@@ -3,8 +3,8 @@
 A RubyGems plugin that generates binary (pre-compiled) gems.
 
 [![Gem Version](https://img.shields.io/gem/v/gem-compiler.svg)](https://rubygems.org/gems/gem-compiler)
-[![Travis status](https://img.shields.io/travis/luislavena/gem-compiler.svg)](https://travis-ci.org/luislavena/gem-compiler)
-[![AppVeyor status](https://img.shields.io/appveyor/ci/luislavena/gem-compiler.svg)](https://ci.appveyor.com/project/luislavena/gem-compiler)
+[![Travis status](https://img.shields.io/travis/luislavena/gem-compiler/master.svg)](https://travis-ci.org/luislavena/gem-compiler)
+[![AppVeyor status](https://img.shields.io/appveyor/ci/luislavena/gem-compiler/master.svg)](https://ci.appveyor.com/project/luislavena/gem-compiler)
 [![Code Climate](https://img.shields.io/codeclimate/github/luislavena/gem-compiler.svg)](https://codeclimate.com/github/luislavena/gem-compiler)
 
 - [home](https://github.com/luislavena/gem-compiler)
