@@ -139,11 +139,6 @@ class TestGemCompiler < Gem::TestCase
 
     ["TMP", "TEMP", "TMPDIR"].each { |varname| ENV[varname] = @tempdir }
 
-    # Uncomment these two lines to check that the temp paths are unexpanded,
-    # i.e. that they still contain "DIRWIT~1".
-    #puts "TMPDIR: #{@tempdir}"
-    #puts "DIR.tmpdir: #{Dir.tmpdir}"
-
     util_reset_arch
 
     artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
