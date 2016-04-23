@@ -160,20 +160,6 @@ While the ideal scenario is using a tool like rake-compiler that endorses
 *convention over configuration*, is not humanly possible change all the
 projects by snapping your fingers :wink:
 
-## What is missing
-
-The following are the list of features I would like to implement at some
-point:
-
-- Cross compile gems to any platform that Ruby can run
-(e.g. from Linux/OSX to Windows, x86 to x64, x86 Linux to ARM Linux, etc)
-
-- Create multiple gems from the same build
-(e.g. target both x86-mswin32-60 and x86-mingw32)
-
-- Ability to build fat-binaries targeting both Ruby 1.8 and 1.9.x,
-placing automatic stubs to handle extension loading.
-
 ## License
 
 [The MIT License](LICENSE)
