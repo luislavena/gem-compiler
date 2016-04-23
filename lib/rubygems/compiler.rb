@@ -77,10 +77,10 @@ class Gem::Compiler
     # move the built gem to the original output directory
     FileUtils.mv File.join(target_dir, output_gem), @output_dir
 
-    cleanup
-
     # return the path of the gem
     output_gem
+  ensure
+    cleanup
   end
 
   private
