@@ -159,16 +159,16 @@ class TestGemCompiler < Gem::TestCase
 
     assert_includes spec.files, "lib/#{artifact}"
   ensure
-    return unless Gem.win_platform?
+    if Gem.win_platform?
+      FileUtils.rm_rf @tempdir
 
-    FileUtils.rm_rf @tempdir
+      ENV["TMP"] = old_tmp
+      ENV["TEMP"] = old_temp
+      ENV["TMPDIR"] = old_tmpdir
 
-    ENV["TMP"] = old_tmp
-    ENV["TEMP"] = old_temp
-    ENV["TMPDIR"] = old_tmpdir
-
-    @tempdir = old_tempdir
-    @output_dir = old_output_dir
+      @tempdir = old_tempdir
+      @output_dir = old_output_dir
+    end
   end
 
   ##
