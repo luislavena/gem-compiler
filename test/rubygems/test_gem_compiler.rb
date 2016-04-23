@@ -159,6 +159,8 @@ class TestGemCompiler < Gem::TestCase
 
     assert_includes spec.files, "lib/#{artifact}"
   ensure
+    return unless Gem.win_platform?
+
     FileUtils.rm_rf @tempdir
 
     ENV["TMP"] = old_tmp
