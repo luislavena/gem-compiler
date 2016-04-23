@@ -91,6 +91,16 @@ class Gem::Compiler
       installer.spec.extension_dir = File.join(@target_dir, "lib")
     end
 
+    # Ensure Ruby version is met
+    if installer.respond_to?(:ensure_required_ruby_version_met)
+      installer.ensure_required_ruby_version_met
+    end
+
+    # Check version of RubyGems (just in case)
+    if installer.respond_to?(:ensure_required_rubygems_version_met)
+      installer.ensure_required_rubygems_version_met
+    end
+
     # Hmm, gem already compiled?
     if installer.spec.platform != Gem::Platform::RUBY
       raise CompilerError,

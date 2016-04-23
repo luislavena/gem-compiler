@@ -4,6 +4,7 @@
 
 - Drop support for any Ruby version prior to 2.0.0
 - Workaround shortname directories on Windows. Thanks to @mbland (#17 & #19)
+- Validate both Ruby and RubyGems versions defined in gemspec
 
 ## 0.4.0 (2015-07-18)
 
