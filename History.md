@@ -5,6 +5,7 @@
 - Drop support for any Ruby version prior to 2.0.0
 - Workaround shortname directories on Windows. Thanks to @mbland (#17 & #19)
 - Validate both Ruby and RubyGems versions defined in gemspec
+- Ensure any RubyGems' `pre_install` hooks are run at extension compilation (#18)
 
 ## 0.4.0 (2015-07-18)
 
