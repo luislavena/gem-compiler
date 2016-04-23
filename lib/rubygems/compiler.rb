@@ -29,15 +29,22 @@ class Gem::Compiler
     # build extensions
     installer.build_extensions
 
-    # determine build artifacts from require_paths
-    dlext    = RbConfig::CONFIG["DLEXT"]
-    lib_dirs = installer.spec.require_paths.join(",")
-
-    artifacts = Dir.glob("#{target_dir}/{#{lib_dirs}}/**/*.#{dlext}")
+    artifacts = collect_artifacts
 
     # build a new gemspec from the original one
     gemspec = installer.spec.dup
 
+    adjust_gemspec_files gemspec, artifacts
+
+    # generate new gem and return new path to it
+    repackage gemspec
+  ensure
+    cleanup
+  end
+
+  private
+
+  def adjust_gemspec_files(gemspec, artifacts)
     # remove any non-existing files
     if @options[:prune]
       gemspec.files.reject! { |f| !File.exist?("#{target_dir}/#{f}") }
@@ -51,39 +58,19 @@ class Gem::Compiler
       debug "Adding '#{file}' to gemspec"
       gemspec.files.push file
     end
-
-    # clear out extensions from gemspec
-    gemspec.extensions.clear
-
-    # adjust platform
-    gemspec.platform = Gem::Platform::CURRENT
-
-    # build new gem
-    output_gem = nil
-
-    Dir.chdir target_dir do
-      output_gem = if defined?(Gem::Builder)
-        Gem::Builder.new(gemspec).build
-      else
-        Gem::Package.build(gemspec)
-      end
-    end
-
-    unless output_gem
-      raise CompilerError,
-            "There was a problem building the gem."
-    end
-
-    # move the built gem to the original output directory
-    FileUtils.mv File.join(target_dir, output_gem), @output_dir
-
-    # return the path of the gem
-    output_gem
-  ensure
-    cleanup
   end
 
-  private
+  def cleanup
+    FileUtils.rm_rf tmp_dir
+  end
+
+  def collect_artifacts
+    # determine build artifacts from require_paths
+    dlext    = RbConfig::CONFIG["DLEXT"]
+    lib_dirs = installer.spec.require_paths.join(",")
+
+    Dir.glob("#{target_dir}/{#{lib_dirs}}/**/*.#{dlext}")
+  end
 
   def info(msg)
     say msg if Gem.configuration.verbose
@@ -119,6 +106,36 @@ class Gem::Compiler
     @installer = installer
   end
 
+  def repackage(gemspec)
+    # clear out extensions from gemspec
+    gemspec.extensions.clear
+
+    # adjust platform
+    gemspec.platform = Gem::Platform::CURRENT
+
+    # build new gem
+    output_gem = nil
+
+    Dir.chdir target_dir do
+      output_gem = if defined?(Gem::Builder)
+        Gem::Builder.new(gemspec).build
+      else
+        Gem::Package.build(gemspec)
+      end
+    end
+
+    unless output_gem
+      raise CompilerError,
+            "There was a problem building the gem."
+    end
+
+    # move the built gem to the original output directory
+    FileUtils.mv File.join(target_dir, output_gem), @output_dir
+
+    # return the path of the gem
+    output_gem
+  end
+
   def tmp_dir
     @tmp_dir ||= Dir.glob(Dir.mktmpdir).first
   end
@@ -131,9 +148,5 @@ class Gem::Compiler
     # We need the basename to keep the unpack happy
     info "Unpacking gem: '#{basename}' in temporary directory..."
     installer.unpack(@target_dir)
-  end
-
-  def cleanup
-    FileUtils.rm_rf tmp_dir
   end
 end
