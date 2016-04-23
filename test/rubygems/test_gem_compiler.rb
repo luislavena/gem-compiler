@@ -38,6 +38,35 @@ class TestGemCompiler < Gem::TestCase
     assert_equal "The gem file seems to be compiled already.", e.message
   end
 
+  def test_compile_required_ruby
+    gem_file = util_bake_gem("old_required") { |s| s.required_ruby_version = "= 1.4.6" }
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
+
+    e = assert_raises Gem::InstallError do
+      use_ui @ui do
+        compiler.compile
+      end
+    end
+
+    assert_equal "old_required requires Ruby version = 1.4.6.", e.message
+  end
+
+  def test_compile_required_rubygems
+    gem_file = util_bake_gem("old_rubygems") { |s| s.required_rubygems_version = "< 0" }
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
+
+    e = assert_raises Gem::InstallError do
+      use_ui @ui do
+        compiler.compile
+      end
+    end
+
+    assert_equal "old_rubygems requires RubyGems version < 0. " +
+      "Try 'gem update --system' to update RubyGems itself.", e.message
+  end
+
   def test_compile_succeed
     util_set_arch "i386-mingw32"
 
