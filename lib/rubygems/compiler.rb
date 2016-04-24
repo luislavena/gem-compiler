@@ -132,6 +132,12 @@ class Gem::Compiler
     # adjust platform
     gemspec.platform = Gem::Platform::CURRENT
 
+    # adjust version of Ruby
+    unless @options[:no_abi_lock]
+      ruby_abi = RbConfig::CONFIG["ruby_version"]
+      gemspec.required_ruby_version = "~> #{ruby_abi}"
+    end
+
     # build new gem
     output_gem = nil
 
