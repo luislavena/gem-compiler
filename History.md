@@ -1,6 +1,6 @@
 # gem-compiler
 
-## Unreleased
+## 0.5.0 (2016-04-24)
 
 - Drop support for any Ruby version prior to 2.0.0
 - Workaround shortname directories on Windows. Thanks to @mbland (#17 & #19)
