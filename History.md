@@ -6,6 +6,8 @@
 - Workaround shortname directories on Windows. Thanks to @mbland (#17 & #19)
 - Validate both Ruby and RubyGems versions defined in gemspec
 - Ensure any RubyGems' `pre_install` hooks are run at extension compilation (#18)
+- Lock compile gems to Ruby's ABI version which can be disabled using
+  `--no-abi-lock` option (#11)
 
 ## 0.4.0 (2015-07-18)
 

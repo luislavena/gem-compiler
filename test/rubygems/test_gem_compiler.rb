@@ -225,6 +225,50 @@ class TestGemCompiler < Gem::TestCase
     end
   end
 
+  def test_compile_lock_ruby_abi
+    util_reset_arch
+
+    ruby_abi = RbConfig::CONFIG["ruby_version"]
+    artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
+
+    gem_file = util_bake_gem("foo") { |s|
+      util_fake_extension s, "foo", util_custom_configure(artifact)
+    }
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_equal spec.required_ruby_version, Gem::Requirement.new("~> #{ruby_abi}")
+  end
+
+  def test_compile_no_lock_ruby_abi
+    util_reset_arch
+
+    ruby_abi = RbConfig::CONFIG["ruby_version"]
+    artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
+
+    gem_file = util_bake_gem("foo") { |s|
+      util_fake_extension s, "foo", util_custom_configure(artifact)
+    }
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :no_abi_lock => true)
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_equal spec.required_ruby_version, Gem::Requirement.new(">= 0")
+  end
+
   ##
   # Reset RubyGems platform to original one. Useful when testing platform
   # specific features (like compiled extensions)

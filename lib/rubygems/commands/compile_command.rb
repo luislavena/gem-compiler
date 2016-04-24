@@ -8,6 +8,10 @@ class Gem::Commands::CompileCommand < Gem::Command
     add_option "--prune", "Clean non-existing files during re-packaging" do |value, options|
       options[:prune] = true
     end
+
+    add_option "-N", "--no-abi-lock", "Do not lock compiled Gem to Ruby's ABI" do |value, options|
+      options[:no_abi_lock] = true
+    end
   end
 
   def arguments

@@ -94,6 +94,23 @@ process:
     Successfully installed nokogiri-1.6.6.2-x86_64-darwin-12
     1 gem installed
 
+#### Restrictions of binaries
+
+Gems compiled with `gem-compiler` will be lock to the version of Ruby used
+to compile them.
+
+This means that a gem compiled under Ruby 2.2 could only be installed under
+Ruby 2.2.
+
+You can disable this by using `--no-abi-lock` option during compilation:
+
+    $ gem compile yajl-ruby-1.1.0.gem --no-abi-lock
+
+**Warning**: this is not recommended since different versions of Ruby might
+expose different options on the API. The binary might be expecting specific
+features not present in the version of Ruby you're installing the binary gem
+into.
+
 ### Compiling from Rake
 
 Most of the times, as gem developer, you would like to generate both kind of
