@@ -38,6 +38,31 @@ class TestGemCompiler < Gem::TestCase
     assert_equal "The gem file seems to be compiled already.", e.message
   end
 
+  def test_compile_pre_install_hooks
+    util_reset_arch
+
+    artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
+
+    gem_file = util_bake_gem("foo") { |s|
+      util_fake_extension s, "foo", util_custom_configure(artifact)
+    }
+
+    hook_run = false
+
+    Gem.pre_install do |installer|
+      hook_run = true
+      true
+    end
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
+
+    use_ui @ui do
+      compiler.compile
+    end
+
+    assert hook_run, "pre_install hook not run"
+  end
+
   def test_compile_required_ruby
     gem_file = util_bake_gem("old_required") { |s| s.required_ruby_version = "= 1.4.6" }
 

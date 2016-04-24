@@ -26,8 +26,7 @@ class Gem::Compiler
   def compile
     unpack
 
-    # build extensions
-    installer.build_extensions
+    build_extensions
 
     artifacts = collect_artifacts
 
@@ -58,6 +57,16 @@ class Gem::Compiler
       debug "Adding '#{file}' to gemspec"
       gemspec.files.push file
     end
+  end
+
+  def build_extensions
+    # run pre_install hooks
+
+    if installer.respond_to?(:run_pre_install_hooks)
+      installer.run_pre_install_hooks
+    end
+
+    installer.build_extensions
   end
 
   def cleanup
