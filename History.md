@@ -1,5 +1,9 @@
 # gem-compiler
 
+## Unreleased
+
+- Drop support for any Ruby version prior to 2.1.0
+
 ## 0.5.0 (2016-04-24)
 
 - Drop support for any Ruby version prior to 2.0.0
