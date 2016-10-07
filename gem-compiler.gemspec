@@ -34,5 +34,5 @@ EOF
 
   # development dependencies
   spec.add_development_dependency "rake", ">= 0.9.2.2"
-  spec.add_development_dependency "minitest", "~> 5.8"
+  spec.add_development_dependency "minitest", "~> 4.7"
 end
