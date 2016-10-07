@@ -12,6 +12,8 @@ install:
 
 test_script:
   - rake -rdevkit test
+  - rake package
+  - gem install --local pkg/gem-compiler-*.gem
 
 build: off
 

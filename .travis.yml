@@ -9,3 +9,7 @@ rvm:
 matrix:
   allow_failures:
     - rvm: ruby-head
+script:
+  - bundle exec rake test
+  - bundle exec rake package
+  - gem install --local pkg/gem-compiler-*.gem
