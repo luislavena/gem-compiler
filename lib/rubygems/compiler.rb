@@ -94,7 +94,13 @@ class Gem::Compiler
   end
 
   def prepare_installer
-    installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
+    # RubyGems 2.5 specifics
+    unpack_options = options.dup.merge(:unpack => true)
+    if Gem::Installer.respond_to?(:at)
+      installer = Gem::Installer.at(@gemfile, unpack_options)
+    else
+      installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
+    end
 
     # RubyGems 2.2 specifics
     if installer.spec.respond_to?(:full_gem_path=)
