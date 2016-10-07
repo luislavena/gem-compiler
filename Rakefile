@@ -28,9 +28,17 @@ end
 desc "Run tests"
 task :test => [:info] do
   lib_dirs = ["lib", "test"].join(File::PATH_SEPARATOR)
-  test_files = FileList["test/**/test*.rb"].gsub("test/", "")
 
-  ruby "-I#{lib_dirs} -e \"ARGV.each { |f| require f }\" #{test_files}"
+  filters = (ENV["FILTER"] || ENV["TESTOPTS"] || "").dup
+  filters << " -n #{ENV["N"]}" if ENV["N"]
+
+  test_files = ["rubygems"]
+  test_files << "minitest/autorun"
+  test_files << FileList["test/**/test_*.rb"].gsub("test/", "")
+  test_files.flatten!
+  test_files.map! { |f| %(require "#{f}") }
+
+  ruby "-w -I#{lib_dirs} --disable-gems -e '#{test_files.join("; ")}' -- #{filters}"
 end
 
 task :default => [:test]
