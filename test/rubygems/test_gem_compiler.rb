@@ -5,6 +5,9 @@ class TestGemCompiler < Gem::TestCase
   def setup
     super
 
+    # unset GEM_PATH so `rake` is found during compilation of extensions
+    ENV.delete("GEM_PATH")
+
     @output_dir = File.join @tempdir, 'output'
     FileUtils.mkdir_p @output_dir
   end
