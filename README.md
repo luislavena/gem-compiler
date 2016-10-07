@@ -76,12 +76,10 @@ gems. To workaround this problem you have the option to *prune* the package
 process:
 
     $ gem fetch nokogiri --platform=ruby
-
     Fetching: nokogiri-1.6.6.2.gem (100%)
     Downloaded nokogiri-1.6.6.2
 
     $ gem compile nokogiri-1.6.6.2.gem --prune
-
     Unpacking gem: 'nokogiri-1.6.6.2' in temporary directory...
     Building native extensions.  This could take a while...
       Successfully built RubyGem
@@ -90,7 +88,6 @@ process:
       File: nokogiri-1.6.6.2-x86_64-darwin-12.gem
 
     $ gem install --local nokogiri-1.6.6.2-x86_64-darwin-12.gem
-
     Successfully installed nokogiri-1.6.6.2-x86_64-darwin-12
     1 gem installed
 
