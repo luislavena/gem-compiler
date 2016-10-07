@@ -18,6 +18,6 @@ class TestGemCommandsCompileCommand < Gem::TestCase
       end
     end
 
-    assert_match /Please specify a gem file on the command line/, e.message
+    assert_match %r{Please specify a gem file on the command line}, e.message
   end
 end

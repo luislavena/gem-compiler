@@ -15,7 +15,7 @@ class Gem::Compiler
   # raise when there is a error
   class CompilerError < Gem::InstallError; end
 
-  attr_reader :tmp_dir, :target_dir, :options
+  attr_reader :target_dir, :options
 
   def initialize(gemfile, _options = {})
     @gemfile    = gemfile
@@ -90,8 +90,10 @@ class Gem::Compiler
   end
 
   def installer
-    return @installer if @installer
+    @installer ||= prepare_installer
+  end
 
+  def prepare_installer
     installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
 
     # RubyGems 2.2 specifics
@@ -122,7 +124,7 @@ class Gem::Compiler
             "There are no extensions to build on this gem file."
     end
 
-    @installer = installer
+    installer
   end
 
   def repackage(gemspec)

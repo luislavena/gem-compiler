@@ -253,7 +253,6 @@ class TestGemCompiler < Gem::TestCase
   def test_compile_no_lock_ruby_abi
     util_reset_arch
 
-    ruby_abi = RbConfig::CONFIG["ruby_version"]
     artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
 
     gem_file = util_bake_gem("foo") { |s|
