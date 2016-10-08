@@ -4,6 +4,7 @@
 
 - Drop support for any Ruby version prior to 2.1.0
 - Solve RubyGems 2.5 deprecation warnings
+- Use Travis to automate new releases
 
 ## 0.5.0 (2016-04-24)
 
