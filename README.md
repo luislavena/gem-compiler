@@ -160,6 +160,19 @@ And from the output:
 If you see `mingw32`, that means you're using a RubyInstaller build
 (MinGW based).
 
+Once you have installed DevKit into the version of ruby that you wish to build against,
+the "gem compile" command might fail with the error message,
+
+    ERROR:  While executing gem ... (Gem::Installer::ExtensionBuildError)
+    ERROR: Failed to build gem native extensions.
+    
+The solution is to ensure your path is enhanced with the DevKit tools.
+Execute the following from your DevKit home directory:
+
+    devkitvars.bat
+    
+Re-run "gem compile gemname-0.0.0.gem --prune" and it should be successful.
+
 ## Differences with rake-compiler
 
 [rake-compiler](https://github.com/luislavena/rake-compiler) has provided to
