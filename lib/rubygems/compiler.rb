@@ -18,9 +18,9 @@ class Gem::Compiler
   attr_reader :target_dir, :options
 
   def initialize(gemfile, _options = {})
-    @gemfile    = gemfile
+    @gemfile = gemfile
     @output_dir = _options.delete(:output)
-    @options    = _options
+    @options = _options
   end
 
   def compile
@@ -61,7 +61,6 @@ class Gem::Compiler
 
   def build_extensions
     # run pre_install hooks
-
     if installer.respond_to?(:run_pre_install_hooks)
       installer.run_pre_install_hooks
     end
@@ -75,7 +74,7 @@ class Gem::Compiler
 
   def collect_artifacts
     # determine build artifacts from require_paths
-    dlext    = RbConfig::CONFIG["DLEXT"]
+    dlext = RbConfig::CONFIG["DLEXT"]
     lib_dirs = installer.spec.require_paths.join(",")
 
     Dir.glob("#{target_dir}/{#{lib_dirs}}/**/*.#{dlext}")
@@ -151,10 +150,10 @@ class Gem::Compiler
 
     Dir.chdir target_dir do
       output_gem = if defined?(Gem::Builder)
-        Gem::Builder.new(gemspec).build
-      else
-        Gem::Package.build(gemspec)
-      end
+                     Gem::Builder.new(gemspec).build
+                   else
+                     Gem::Package.build(gemspec)
+                   end
     end
 
     unless output_gem
@@ -174,7 +173,7 @@ class Gem::Compiler
   end
 
   def unpack
-    basename    = File.basename(@gemfile, ".gem")
+    basename = File.basename(@gemfile, ".gem")
     @target_dir = File.join(tmp_dir, basename)
 
     # unpack gem sources into target_dir

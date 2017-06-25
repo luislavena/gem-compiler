@@ -24,7 +24,7 @@ class TestGemCompiler < Gem::TestCase
     end
 
     assert_equal "There are no extensions to build on this gem file.",
-                  e.message
+                 e.message
   end
 
   def test_compile_non_ruby
@@ -92,7 +92,7 @@ class TestGemCompiler < Gem::TestCase
     end
 
     assert_equal "old_rubygems requires RubyGems version < 0. " +
-      "Try 'gem update --system' to update RubyGems itself.", e.message
+                   "Try 'gem update --system' to update RubyGems itself.", e.message
   end
 
   def test_compile_succeed
@@ -111,7 +111,7 @@ class TestGemCompiler < Gem::TestCase
     out = @ui.output.split "\n"
 
     assert_match %r|Unpacking gem: 'a-1' in temporary directory...|,
-                  out.shift
+                 out.shift
 
     assert_path_exists File.join(@output_dir, "a-1-x86-mingw32.gem")
   end
