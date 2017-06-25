@@ -26,7 +26,7 @@ task :info do
 end
 
 desc "Run tests"
-task :test => [:info] do
+task test: [:info] do
   lib_dirs = ["lib", "test"].join(File::PATH_SEPARATOR)
 
   filters = (ENV["FILTER"] || ENV["TESTOPTS"] || "").dup
@@ -41,4 +41,4 @@ task :test => [:info] do
   ruby "-w -I#{lib_dirs} --disable-gems -e '#{test_files.join("; ")}' -- #{filters}"
 end
 
-task :default => [:test]
+task default: [:test]

@@ -95,11 +95,11 @@ class Gem::Compiler
 
   def prepare_installer
     # RubyGems 2.5 specifics
-    unpack_options = options.dup.merge(:unpack => true)
+    unpack_options = options.dup.merge(unpack: true)
     if Gem::Installer.respond_to?(:at)
       installer = Gem::Installer.at(@gemfile, unpack_options)
     else
-      installer = Gem::Installer.new(@gemfile, options.dup.merge(:unpack => true))
+      installer = Gem::Installer.new(@gemfile, options.dup.merge(unpack: true))
     end
 
     # RubyGems 2.2 specifics
@@ -174,7 +174,7 @@ class Gem::Compiler
   end
 
   def unpack
-    basename    = File.basename(@gemfile, '.gem')
+    basename    = File.basename(@gemfile, ".gem")
     @target_dir = File.join(tmp_dir, basename)
 
     # unpack gem sources into target_dir
