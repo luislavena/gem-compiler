@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.6.0 (2017-06-25)
+
 - Drop support for any Ruby version prior to 2.1.0
 - Solve RubyGems 2.5 deprecation warnings
 - Use Travis to automate new releases
