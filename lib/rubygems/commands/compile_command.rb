@@ -5,6 +5,10 @@ class Gem::Commands::CompileCommand < Gem::Command
     super "compile", "Create binary pre-compiled gem",
           output: Dir.pwd
 
+    add_option "-O", "--output DIR", "Directory where binary will be stored" do |value, options|
+      options[:output] = File.expand_path(value, Dir.pwd)
+    end
+
     add_option "--prune", "Clean non-existing files during re-packaging" do |value, options|
       options[:prune] = true
     end
