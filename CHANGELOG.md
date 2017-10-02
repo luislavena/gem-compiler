@@ -10,6 +10,8 @@ upgrading.
 
 ## [Unreleased]
 
+## [0.7.0] - 2017-10-01
+
 ### Added
 - Introduce `--output` (`-O` in short) to specify the output directory where
   compiled gem will be stored.
@@ -76,7 +78,8 @@ upgrading.
 
 - Initial public release, extracted from internal project.
 
-[Unreleased]: https://github.com/luislavena/gem-compiler/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/luislavena/gem-compiler/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/luislavena/gem-compiler/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/luislavena/gem-compiler/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/luislavena/gem-compiler/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/luislavena/gem-compiler/compare/v0.3.0...v0.4.0
