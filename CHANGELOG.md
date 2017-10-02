@@ -10,6 +10,10 @@ upgrading.
 
 ## [Unreleased]
 
+### Added
+- Introduce `--output` (`-O` in short) to specify the output directory where
+  compiled gem will be stored.
+
 ### Changed
 - Introduce `Makefile` for local development
 
