@@ -16,6 +16,8 @@ upgrading.
 
 ### Changed
 - Introduce `Makefile` for local development
+- CI: Update Travis test matrix
+- Reduce RubyGems warnings during `rake package`
 
 ## [0.6.0] - 2017-06-25
 
