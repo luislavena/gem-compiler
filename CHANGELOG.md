@@ -13,6 +13,9 @@ upgrading.
 ### Fixed
 - Solve RubyGems 2.6.x changes on exception hierarchy. Thanks to @MSP-Greg (#30)
 
+### Changed
+- CI: Avoid possible issues when installing Bundler on AppVeyor
+
 ## [0.7.0] - 2017-10-01
 
 ### Added
