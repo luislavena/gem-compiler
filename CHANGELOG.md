@@ -10,6 +10,9 @@ upgrading.
 
 ## [Unreleased]
 
+### Fixed
+- Solve RubyGems 2.6.x changes on exception hierarchy. Thanks to @MSP-Greg (#30)
+
 ## [0.7.0] - 2017-10-01
 
 ### Added

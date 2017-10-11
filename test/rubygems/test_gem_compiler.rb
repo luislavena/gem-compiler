@@ -1,6 +1,14 @@
 require "rubygems/test_case"
 require "rubygems/compiler"
 
+# RubyGems 2.6.x introduced a new exception class for unmet requirements
+# Evalute if is present and use it in tests
+if defined?(Gem::RuntimeRequirementNotMetError)
+  GEM_REQUIREMENT_EXCEPTION = Gem::RuntimeRequirementNotMetError
+else
+  GEM_REQUIREMENT_EXCEPTION = Gem::InstallError
+end
+
 class TestGemCompiler < Gem::TestCase
   def setup
     super
@@ -71,13 +79,13 @@ class TestGemCompiler < Gem::TestCase
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
-    e = assert_raises Gem::InstallError do
+    e = assert_raises GEM_REQUIREMENT_EXCEPTION do
       use_ui @ui do
         compiler.compile
       end
     end
 
-    assert_equal "old_required requires Ruby version = 1.4.6.", e.message
+    assert_match %r|old_required requires Ruby version = 1.4.6|, e.message
   end
 
   def test_compile_required_rubygems
@@ -85,14 +93,13 @@ class TestGemCompiler < Gem::TestCase
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
-    e = assert_raises Gem::InstallError do
+    e = assert_raises GEM_REQUIREMENT_EXCEPTION do
       use_ui @ui do
         compiler.compile
       end
     end
 
-    assert_equal "old_rubygems requires RubyGems version < 0. " +
-                   "Try 'gem update --system' to update RubyGems itself.", e.message
+    assert_match %r|old_rubygems requires RubyGems version < 0|, e.message
   end
 
   def test_compile_succeed
