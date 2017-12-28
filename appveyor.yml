@@ -4,11 +4,15 @@ skip_tags: true
 clone_depth: 10
 
 install:
-  - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
+  - ps: |
+      $env:path = 'C:\Ruby' + $env:ruby_version + '\bin;' + $env:path
   - ruby --version
-  - gem update --system
+  - gem update --system --no-document
   - gem --version
-  - gem install bundler --conservative --version "~> 1.16.1" --no-ri --no-rdoc
+  - ps: |
+      if ((gem query -i bundler) -eq $False) {
+        gem install bundler --no-document
+      }
   - bundle install --jobs=3 --retry=3
 
 test_script:
