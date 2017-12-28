@@ -235,6 +235,78 @@ class TestGemCompiler < Gem::TestCase
     end
   end
 
+  def test_compile_bundle_extra_artifacts_linux
+    util_set_arch "x86_64-linux"
+
+    name = 'a'
+
+    artifact = "shared.so"
+    old_spec = ''
+
+    gem_file = util_bake_gem(name) { |spec|
+      old_spec = spec
+      util_fake_extension spec, name, <<-EOF
+        require "fileutils"
+
+        FileUtils.touch "#{artifact}"
+
+        File.open 'Rakefile', 'w' do |rf| rf.puts "task :default" end
+      EOF
+    }
+
+    compiler = Gem::Compiler.new(gem_file,
+      :output => @output_dir, :include_shared_dir => "ext")
+
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    assert_path_exists File.join(@output_dir, output_gem)
+    actual_spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_includes actual_spec.files, "ext/#{name}/#{artifact}"
+  ensure
+    util_reset_arch
+  end
+
+  def test_compile_bundle_extra_artifacts_windows
+    util_set_arch "i386-mingw32"
+
+    name = 'a'
+
+    artifact = "shared.dll"
+    old_spec = ''
+
+    gem_file = util_bake_gem(name) { |spec|
+      old_spec = spec
+      util_fake_extension spec, name, <<-EOF
+        require "fileutils"
+
+        FileUtils.touch "#{artifact}"
+
+        File.open 'Rakefile', 'w' do |rf| rf.puts "task :default" end
+      EOF
+    }
+
+    compiler = Gem::Compiler.new(gem_file,
+      :output => @output_dir, :include_shared_dir => "ext")
+
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    assert_path_exists File.join(@output_dir, output_gem)
+    actual_spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_includes actual_spec.files, "ext/#{name}/#{artifact}"
+  ensure
+    util_reset_arch
+  end
+
   def test_compile_lock_ruby_abi
     util_reset_arch
 

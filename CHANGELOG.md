@@ -10,6 +10,10 @@ upgrading.
 
 ## [Unreleased]
 
+### Added
+- Introduce `--include-shared-dir` to specify additional directory where to
+  lookup platform-specific shared libraries to bundle in the package. (#34)
+
 ### Fixed
 - Solve RubyGems 2.6.x changes on exception hierarchy. Thanks to @MSP-Greg (#30)
 

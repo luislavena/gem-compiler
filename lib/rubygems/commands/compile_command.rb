@@ -9,6 +9,10 @@ class Gem::Commands::CompileCommand < Gem::Command
       options[:output] = File.expand_path(value, Dir.pwd)
     end
 
+    add_option "--include-shared-dir DIR", "Additional directory for shared libraries" do |value, options|
+      options[:include_shared_dir] = value
+    end
+
     add_option "--prune", "Clean non-existing files during re-packaging" do |value, options|
       options[:prune] = true
     end
