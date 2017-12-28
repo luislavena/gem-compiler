@@ -10,6 +10,8 @@ upgrading.
 
 ## [Unreleased]
 
+## [0.8.0] - 2017-12-28
+
 ### Added
 - Introduce `--include-shared-dir` to specify additional directory where to
   lookup platform-specific shared libraries to bundle in the package. (#34)
@@ -92,7 +94,8 @@ upgrading.
 
 - Initial public release, extracted from internal project.
 
-[Unreleased]: https://github.com/luislavena/gem-compiler/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/luislavena/gem-compiler/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/luislavena/gem-compiler/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/luislavena/gem-compiler/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/luislavena/gem-compiler/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/luislavena/gem-compiler/compare/v0.4.0...v0.5.0
