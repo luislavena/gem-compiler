@@ -29,8 +29,8 @@ EOF
                    "lib/**/*.rb", "test/**/test*.rb"]
 
   # requirements
-  spec.required_ruby_version = ">= 2.1.0"
-  spec.required_rubygems_version = ">= 1.8.24"
+  spec.required_ruby_version = ">= 2.3.0"
+  spec.required_rubygems_version = ">= 2.5.0"
 
   # development dependencies
   spec.add_development_dependency "rake", "~> 12.0", ">= 12.0.0"

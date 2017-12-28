@@ -5,8 +5,6 @@ rvm:
   - 2.5.0
   - 2.4.3
   - 2.3.6
-  - 2.2.9
-  - 2.1.10
   - ruby-head
 matrix:
   allow_failures:
@@ -26,7 +24,7 @@ deploy:
     on:
       tags: true
       repo: luislavena/gem-compiler
-      rvm: 2.1.10
+      rvm: 2.3.6
   - provider: releases
     api_key:
       secure: XahX146zzKPJHx7KlsI3pFNC201wuw3Az6+3eP62NdV6MVqjuazZ0XQZjUlemMSHhnpdk1MC7llqkwrl3Xvk2+WvpMMgvfnUNRP/ND+bjGfX/O/VjnG6PAjshGEI6UT+QfeIxglMVvYX7u1e4NWH3BzIUixoHulx6kRffuq+yz0=
@@ -35,4 +33,4 @@ deploy:
     on:
       tags: true
       repo: luislavena/gem-compiler
-      rvm: 2.1.10
+      rvm: 2.3.6
