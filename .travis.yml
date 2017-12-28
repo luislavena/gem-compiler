@@ -2,14 +2,18 @@ sudo: false
 language: ruby
 cache: bundler
 rvm:
+  - 2.5.0
+  - 2.4.3
+  - 2.3.6
+  - 2.2.9
   - 2.1.10
-  - 2.2.8
-  - 2.3.5
-  - 2.4.2
   - ruby-head
 matrix:
   allow_failures:
     - rvm: ruby-head
+before_install:
+  - gem update --system
+  - gem install bundler --conservative --version "~> 1.16.1" --no-ri --no-rdoc
 script:
   - bundle exec rake test
   - bundle exec rake package
