@@ -2,12 +2,7 @@ require "fileutils"
 require "rbconfig"
 require "tmpdir"
 require "rubygems/installer"
-
-if Gem::VERSION >= "2.0.0"
-  require "rubygems/package"
-else
-  require "rubygems/builder"
-end
+require "rubygems/package"
 
 class Gem::Compiler
   include Gem::UserInteraction
@@ -149,11 +144,7 @@ class Gem::Compiler
     output_gem = nil
 
     Dir.chdir target_dir do
-      output_gem = if defined?(Gem::Builder)
-                     Gem::Builder.new(gemspec).build
-                   else
-                     Gem::Package.build(gemspec)
-                   end
+      output_gem = Gem::Package.build(gemspec)
     end
 
     unless output_gem

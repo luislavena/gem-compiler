@@ -13,6 +13,10 @@ upgrading.
 ### Fixed
 - Solve RubyGems 2.6.x changes on exception hierarchy. Thanks to @MSP-Greg (#30)
 
+### Removed
+- Drop support for Ruby 2.1.x and 2.2.x, as they reached EOL (End Of Life)
+- Drop support for RubyGems older than 2.5.0
+
 ### Changed
 - CI: Avoid possible issues when installing Bundler on AppVeyor
 
