@@ -25,6 +25,12 @@ class Gem::Compiler
 
     artifacts = collect_artifacts
 
+    if shared_dir = options[:include_shared_dir]
+      shared_libs = collect_shared(shared_dir)
+
+      artifacts.concat shared_libs
+    end
+
     # build a new gemspec from the original one
     gemspec = installer.spec.dup
 
@@ -75,6 +81,12 @@ class Gem::Compiler
     Dir.glob("#{target_dir}/{#{lib_dirs}}/**/*.#{dlext}")
   end
 
+  def collect_shared(shared_dir)
+    libext = platform_shared_ext
+
+    Dir.glob("#{target_dir}/#{shared_dir}/**/*.#{libext}")
+  end
+
   def info(msg)
     say msg if Gem.configuration.verbose
   end
@@ -85,6 +97,21 @@ class Gem::Compiler
 
   def installer
     @installer ||= prepare_installer
+  end
+
+  def platform_shared_ext
+    platform = Gem::Platform.local
+
+    case platform.os
+    when /darwin/
+      "dylib"
+    when /linux|bsd|solaris/
+      "so"
+    when /mingw|mswin|cygwin|msys/
+      "dll"
+    else
+      "so"
+    end
   end
 
   def prepare_installer
