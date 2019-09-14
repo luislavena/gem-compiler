@@ -34,6 +34,8 @@ class Gem::Compiler
     # build a new gemspec from the original one
     gemspec = installer.spec.dup
 
+    strip_binaries artifacts
+
     adjust_gemspec_files gemspec, artifacts
 
     # generate new gem and return new path to it
@@ -43,6 +45,14 @@ class Gem::Compiler
   end
 
   private
+
+  def strip_binaries(artifacts)
+    return true unless platform_shared_ext == 'so'
+
+    artifacts.each do |artifact|
+      `strip --strip-unneeded '#{artifact}'`
+    end
+  end
 
   def adjust_gemspec_files(gemspec, artifacts)
     # remove any non-existing files
