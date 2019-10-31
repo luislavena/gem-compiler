@@ -13,6 +13,10 @@ class Gem::Commands::CompileCommand < Gem::Command
       options[:include_shared_dir] = value
     end
 
+    add_option "--artifact PATH", "Additional artifact to package (relative to the gem dir)" do |value, options|
+      (options[:artifacts] ||= []) << value
+    end
+
     add_option "--prune", "Clean non-existing files during re-packaging" do |value, options|
       options[:prune] = true
     end

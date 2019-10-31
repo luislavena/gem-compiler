@@ -3,6 +3,7 @@ require "rbconfig"
 require "tmpdir"
 require "rubygems/installer"
 require "rubygems/package"
+require 'find'
 
 class Gem::Compiler
   include Gem::UserInteraction
@@ -23,7 +24,18 @@ class Gem::Compiler
 
     build_extensions
 
-    artifacts = collect_artifacts
+    artifacts = (@options[:artifacts] || []).map do |rel_path|
+      full_path = File.join(target_dir, rel_path)
+      if File.file?(full_path)
+        full_path
+      else
+        Find.enum_for(:find, full_path)
+            .find_all { |p| File.file?(p) }
+            .to_a
+      end
+    end.flatten
+
+    artifacts.concat collect_artifacts
 
     if shared_dir = options[:include_shared_dir]
       shared_libs = collect_shared(shared_dir)
