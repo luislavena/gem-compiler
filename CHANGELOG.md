@@ -10,6 +10,9 @@ upgrading.
 
 ## [Unreleased]
 
+### Changed
+- Deal with RubyGems 3.x `new_spec` deprecation in tests.
+
 ## [0.8.0] - 2017-12-28
 
 ### Added

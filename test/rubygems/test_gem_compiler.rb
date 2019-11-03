@@ -364,7 +364,11 @@ class TestGemCompiler < Gem::TestCase
   def util_bake_gem(name = "a", *extra, &block)
     files = ["lib/#{name}.rb"].concat(extra)
 
-    spec = new_spec name, "1", nil, files, &block
+    spec = if Gem::VERSION >= "3.0.0"
+      util_spec name, "1", nil, files, &block
+    else
+      new_spec name, "1", nil, files, &block
+    end
 
     File.join @tempdir, "gems", "#{spec.full_name}.gem"
   end
