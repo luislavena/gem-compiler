@@ -173,7 +173,7 @@ class TestGemCompiler < Gem::TestCase
     assert_includes spec.files, "lib/#{artifact}"
   end
 
-  def test_compile_bundle_additional_artifacts
+  def test_compile_bundle_include
     util_reset_arch
 
     artifact = "foo.some_ext"
@@ -184,7 +184,7 @@ class TestGemCompiler < Gem::TestCase
 
     compiler = Gem::Compiler.new(
       gem_file, :output => @output_dir,
-      :artifacts => ['lib/foo.some_ext']
+      :artifacts => [[true, 'lib/*.some_ext']]
     )
     output_gem = nil
 
@@ -198,7 +198,45 @@ class TestGemCompiler < Gem::TestCase
     assert_includes spec.files, "lib/#{artifact}"
   end
 
-  def test_compile_bundle_additional_directory_artifacts
+  def test_compile_bundle_exclude_then_include
+    util_reset_arch
+
+    script = <<-EO_MKRF
+      File.open("Rakefile", "w") do |f|
+        f.puts <<-EOF
+          task :default do
+            lib_dir = ENV["RUBYARCHDIR"] || ENV["RUBYLIBDIR"]
+            FileUtils.mkdir_p File.join(lib_dir, 'baz', 'file1.rb')
+            FileUtils.mkdir_p File.join(lib_dir, 'baz', 'file2.rb')
+            FileUtils.mkdir_p File.join(lib_dir, 'foo', 'bar')
+            touch File.join(lib_dir, 'foo', 'bar', 'somefile.txt')
+          end
+        EOF
+      end
+    EO_MKRF
+
+    gem_file = util_bake_gem("foo") { |s|
+      util_fake_extension s, "foo", script
+    }
+
+    compiler = Gem::Compiler.new(
+      gem_file, 
+      output: @output_dir,
+      artifacts: [[false, '**/foo.rb'], [true, 'lib/foo/**/*']]
+    )
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    assert_path_exists File.join(@output_dir, output_gem)
+    spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_includes spec.files, "lib/foo/bar/somefile.txt"
+  end
+
+  def test_compile_bundle_include_then_exclude
     util_reset_arch
 
     script = <<-EO_MKRF
@@ -220,7 +258,7 @@ class TestGemCompiler < Gem::TestCase
 
     compiler = Gem::Compiler.new(
       gem_file, :output => @output_dir,
-      :artifacts => ['lib/foo']
+      :artifacts => [[true, 'lib/**/*'], [false, 'lib/baz/*']]
     )
     output_gem = nil
 

@@ -24,18 +24,17 @@ class Gem::Compiler
 
     build_extensions
 
-    artifacts = (@options[:artifacts] || []).map do |rel_path|
-      full_path = File.join(target_dir, rel_path)
-      if File.file?(full_path)
-        full_path
-      else
-        Find.enum_for(:find, full_path)
-            .find_all { |p| File.file?(p) }
-            .to_a
-      end
-    end.flatten
+    artifacts = collect_artifacts
 
-    artifacts.concat collect_artifacts
+    (@options[:artifacts] || []).map do |include, glob|
+      resolved = Dir.glob("#{target_dir}/#{glob}")
+      if include
+        artifacts.concat(resolved)
+      else
+        artifacts -= resolved
+      end
+    end
+
 
     if shared_dir = options[:include_shared_dir]
       shared_libs = collect_shared(shared_dir)
