@@ -30,4 +30,7 @@ jobs:
       run: |
         bundle install --jobs 4 --retry 3
     - name: Run test
-      run: rake test
+      run: |
+        rake test
+        rake package
+        gem install --local pkg/gem-compiler-*.gem
