@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build + Publish
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby:
+          # use always oldest supported version
+          - '2.4.9'
+    steps:
+    - uses: actions/checkout@722adc63f1aa60a57ec37892e133b1d319cae598
+    - uses: actions/cache@cffae9552bb9f84b9812c1ee9ea2e3c0a70a797e
+      id: cache
+      with:
+        path: ~/local/rubies
+        key: ${{ runner.os }}-ruby-${{ matrix.ruby }}
+    - name: Set up Ruby
+      uses: clupprich/ruby-build-action@d2971553edbe27a9cb7e277f22b549114bfd3ccf
+      id: ruby
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        cache-available: ${{ steps.cache.outputs.cache-hit == 'true' }}
+    - name: Install Bundler
+      run: |
+        gem install bundler --conservative --no-document
+    - name: Install dependencies
+      run: |
+        bundle check || bundle install --jobs 4 --retry 3
+    - name: Build gem
+      run: |
+        rake package
+    - name: Publish to RubyGems
+      run: |
+        mkdir -p $HOME/.gem
+        touch $HOME/.gem/credentials
+        chmod 0600 $HOME/.gem/credentials
+        printf -- "---\n:rubygems_api_key: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
+        gem push pkg/gem-compiler-*.gem
+      env:
+        GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_AUTH_TOKEN }}
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@64e5e85fc528f162d7ba7ce2d15a3bb67efb3d80
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        draft: true
+        prerelease: false
