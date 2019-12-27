@@ -13,6 +13,9 @@ upgrading.
 ### Changed
 - Deal with RubyGems 3.x `new_spec` deprecation in tests.
 
+### Removed
+- Drop support for Ruby 2.3.x, as it reached EOL (End Of Life)
+
 ## [0.8.0] - 2017-12-28
 
 ### Added

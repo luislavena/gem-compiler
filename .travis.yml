@@ -2,16 +2,16 @@ sudo: false
 language: ruby
 cache: bundler
 rvm:
-  - 2.5.0
-  - 2.4.3
-  - 2.3.6
+  - 2.6.5
+  - 2.5.7
+  - 2.4.9
   - ruby-head
 matrix:
   allow_failures:
     - rvm: ruby-head
 before_install:
   - gem update --system
-  - gem install bundler --conservative --version "~> 1.16.1" --no-ri --no-rdoc
+  - gem install bundler --conservative --no-document
 script:
   - bundle exec rake test
   - bundle exec rake package
@@ -24,7 +24,7 @@ deploy:
     on:
       tags: true
       repo: luislavena/gem-compiler
-      rvm: 2.3.6
+      rvm: 2.4.9
   - provider: releases
     api_key:
       secure: XahX146zzKPJHx7KlsI3pFNC201wuw3Az6+3eP62NdV6MVqjuazZ0XQZjUlemMSHhnpdk1MC7llqkwrl3Xvk2+WvpMMgvfnUNRP/ND+bjGfX/O/VjnG6PAjshGEI6UT+QfeIxglMVvYX7u1e4NWH3BzIUixoHulx6kRffuq+yz0=
@@ -33,4 +33,4 @@ deploy:
     on:
       tags: true
       repo: luislavena/gem-compiler
-      rvm: 2.3.6
+      rvm: 2.4.9
