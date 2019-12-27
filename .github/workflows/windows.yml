@@ -1,0 +1,33 @@
+name: Windows
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        ruby:
+          - '2.6.x'
+          - '2.5.x'
+          - '2.4.x'
+    steps:
+    - uses: actions/checkout@722adc63f1aa60a57ec37892e133b1d319cae598
+    - name: Set up Ruby
+      uses: MSP-Greg/actions-ruby@d22008bd83cc7a488e9e162a950deb9137b64766
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - name: Install Bundler
+      run: |
+        gem install bundler --conservative --no-document
+    - name: Install dependencies
+      run: |
+        bundle install --jobs 4 --retry 3
+    - name: Run test
+      run: rake test
