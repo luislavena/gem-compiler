@@ -1,0 +1,44 @@
+name: macOS
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        ruby:
+          - '2.7.0'
+          - '2.6.5'
+          - '2.5.7'
+          - '2.4.9'
+    steps:
+    - uses: actions/checkout@722adc63f1aa60a57ec37892e133b1d319cae598
+    - uses: actions/cache@cffae9552bb9f84b9812c1ee9ea2e3c0a70a797e
+      id: cache
+      with:
+        path: ~/local/rubies
+        key: ${{ runner.os }}-ruby-${{ matrix.ruby }}
+    - name: Set up Ruby
+      uses: clupprich/ruby-build-action@d2971553edbe27a9cb7e277f22b549114bfd3ccf
+      id: ruby
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        cache-available: ${{ steps.cache.outputs.cache-hit == 'true' }}
+    - name: Install Bundler
+      run: |
+        gem install bundler --conservative --no-document
+    - name: Install dependencies
+      run: |
+        bundle check || bundle install --jobs 4 --retry 3
+    - name: Run test
+      run: |
+        rake test
+        rake package
+        gem install --local pkg/gem-compiler-*.gem

@@ -15,6 +15,7 @@ upgrading.
 
 ### Changed
 - Deal with RubyGems 3.x `new_spec` deprecation in tests.
+- CI: Replace Travis/AppVeyor with GitHub Actions for Ubuntu, macOS and Windows.
 
 ### Removed
 - Drop support for Ruby 2.3.x, as it reached EOL (End Of Life)
