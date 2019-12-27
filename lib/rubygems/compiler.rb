@@ -197,6 +197,14 @@ class Gem::Compiler
     # unpack gem sources into target_dir
     # We need the basename to keep the unpack happy
     info "Unpacking gem: '#{basename}' in temporary directory..."
-    installer.unpack(@target_dir)
+
+    # RubyGems >= 3.1.x
+    if installer.respond_to?(:package)
+      package = installer.package
+    else
+      package = Gem::Package.new(@gemfile)
+    end
+
+    package.extract_files(@target_dir)
   end
 end
