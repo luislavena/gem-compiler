@@ -3,6 +3,7 @@ require "rbconfig"
 require "tmpdir"
 require "rubygems/installer"
 require "rubygems/package"
+require 'find'
 
 class Gem::Compiler
   include Gem::UserInteraction
@@ -24,6 +25,16 @@ class Gem::Compiler
     build_extensions
 
     artifacts = collect_artifacts
+
+    (@options[:artifacts] || []).map do |include, glob|
+      resolved = Dir.glob("#{target_dir}/#{glob}")
+      if include
+        artifacts.concat(resolved)
+      else
+        artifacts -= resolved
+      end
+    end
+
 
     if shared_dir = options[:include_shared_dir]
       shared_libs = collect_shared(shared_dir)
