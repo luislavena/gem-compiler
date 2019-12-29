@@ -19,6 +19,7 @@ upgrading.
 
 ### Removed
 - Drop support for Ruby 2.3.x, as it reached EOL (End Of Life)
+- Drop support for RubyGems older than 2.6.0 (Ruby 2.4 includes RubyGems 2.6.8)
 
 ## [0.8.0] - 2017-12-28
 

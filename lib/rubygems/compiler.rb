@@ -115,19 +115,9 @@ class Gem::Compiler
   end
 
   def prepare_installer
-    # RubyGems 2.5 specifics
-    unpack_options = options.dup.merge(unpack: true)
-    if Gem::Installer.respond_to?(:at)
-      installer = Gem::Installer.at(@gemfile, unpack_options)
-    else
-      installer = Gem::Installer.new(@gemfile, options.dup.merge(unpack: true))
-    end
-
-    # RubyGems 2.2 specifics
-    if installer.spec.respond_to?(:full_gem_path=)
-      installer.spec.full_gem_path = @target_dir
-      installer.spec.extension_dir = File.join(@target_dir, "lib")
-    end
+    installer = Gem::Installer.at(@gemfile, options.dup.merge(unpack: true))
+    installer.spec.full_gem_path = @target_dir
+    installer.spec.extension_dir = File.join(@target_dir, "lib")
 
     # Ensure Ruby version is met
     if installer.respond_to?(:ensure_required_ruby_version_met)
