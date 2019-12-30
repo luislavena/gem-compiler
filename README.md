@@ -127,9 +127,9 @@ required.
 ### Ruby and RubyGems
 
 It's assumed you have Ruby and RubyGems installed. gem-compiler requires
-RubyGems 1.8.x to properly work.
+RubyGems 2.6.x to work.
 
-If you don't have RubyGems 1.8.x, you can upgrade by running:
+If you don't have RubyGems 2.6.x, you can upgrade by running:
 
     $ gem update --system
 
@@ -144,7 +144,7 @@ right one.
 
 For those using RubyInstaller-based builds, you will need to download the
 DevKit from their [downloads page](http://rubyinstaller.org/downloads)
-and follow the [installation instructions](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit).
+and follow the installation instructions.
 
 To be sure your installation of Ruby is based on RubyInstaller, execute at
 the command prompt:
@@ -153,7 +153,7 @@ the command prompt:
 
 And from the output:
 
-    tcs-ruby 1.9.3p196 (2012-04-21, TCS patched 2012-04-21) [i386-mingw32]
+    ruby 2.4.9p362 (2019-10-02 revision 67824) [x64-mingw32]
 
 If you see `mingw32`, that means you're using a RubyInstaller build
 (MinGW based).
