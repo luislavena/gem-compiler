@@ -25,14 +25,16 @@ class TestGemCompiler < Gem::TestCase
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
-    e = assert_raises Gem::Compiler::CompilerError do
+    assert_raises Gem::MockGemUi::SystemExitException do
       use_ui @ui do
         compiler.compile
       end
     end
 
-    assert_equal "There are no extensions to build on this gem file.",
-                 e.message
+    out = @ui.output.split "\n"
+
+    assert_equal "There are no extensions to build on this gem file. Done.",
+                  out.last
   end
 
   def test_compile_non_ruby
@@ -40,13 +42,15 @@ class TestGemCompiler < Gem::TestCase
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
-    e = assert_raises Gem::Compiler::CompilerError do
+    assert_raises Gem::MockGemUi::SystemExitException do
       use_ui @ui do
         compiler.compile
       end
     end
 
-    assert_equal "The gem file seems to be compiled already.", e.message
+    out = @ui.output.split "\n"
+
+    assert_equal "The gem file seems to be compiled already. Done.", out.last
   end
 
   def test_compile_pre_install_hooks
