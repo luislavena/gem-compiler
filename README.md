@@ -17,8 +17,49 @@ Ruby C extensions and bundles the result into a new gem.
 It uses an *outside-in* approach and leverages on existing RubyGems code to
 do it.
 
-The result of the compilation is a binary gem built for your current platform,
-skipping the need of a compiler toolchain when installing it.
+## Benefits
+
+Using `gem-compiler` removes the need to install a compiler toolchain on the
+platform used to run the extension. This means less dependencies are required
+in those systems and can reduce associated update/maintenance cycles.
+
+Additionally, by having only binaries, it reduces the time it takes to install
+several gems that normally take minutes to compile themselves and the needed
+dependencies.
+
+Without `gem-compiler`, takes more than a minute to install Nokogiri on
+Ubuntu 18.04:
+
+```console
+$ time gem install --local nokogiri-1.10.7.gem
+Building native extensions. This could take a while...
+Successfully installed nokogiri-1.10.7
+1 gem installed
+
+real    1m22.670s
+user    1m5.856s
+sys     0m18.637s
+```
+
+Compared to the installation of the pre-compiled version:
+
+```console
+$ gem compile nokogiri-1.10.7.gem --prune
+Unpacking gem: 'nokogiri-1.10.7' in temporary directory...
+Building native extensions. This could take a while...
+  Successfully built RubyGem
+  Name: nokogiri
+  Version: 1.10.7
+  File: nokogiri-1.10.7-x86_64-linux.gem
+
+$ time gem install --local nokogiri-1.10.7-x86_64-linux.gem
+Successfully installed nokogiri-1.10.7-x86_64-linux
+1 gem installed
+
+real    0m1.697s
+user    0m1.281s
+sys     0m0.509s
+```
 
 ## Installation
 
