@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rubygems/test_case"
 require "rubygems/compiler"
 
