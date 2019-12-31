@@ -354,6 +354,82 @@ class TestGemCompiler < Gem::TestCase
     assert_equal spec.required_ruby_version, Gem::Requirement.new(">= 0")
   end
 
+  def test_compile_strip_default_rbconfig
+    util_reset_arch
+    hook_simple_run
+
+    old_strip, RbConfig::CONFIG["STRIP"] = RbConfig::CONFIG["STRIP"], "echo strip-exec"
+
+    gem_file = util_bake_gem("foo") do |spec|
+      util_dummy_extension spec, "bar"
+    end
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :strip => true)
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    spec = util_read_spec File.join(@output_dir, output_gem)
+    assert_includes spec.files, "lib/bar.#{RbConfig::CONFIG["DLEXT"]}"
+
+    assert_match %r|Stripping symbols from extensions|, @ui.output
+    assert_match %r|using 'echo strip-exec'|, @ui.output
+  ensure
+    restore_simple_run
+  end
+
+  def test_compile_strip_custom_cmd
+    util_reset_arch
+    hook_simple_run
+
+    gem_file = util_bake_gem("foo") do |spec|
+      util_dummy_extension spec, "bar"
+    end
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir,
+                                :strip => true, :strip_cmd => "echo strip-custom")
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    spec = util_read_spec File.join(@output_dir, output_gem)
+    assert_includes spec.files, "lib/bar.#{RbConfig::CONFIG["DLEXT"]}"
+
+    assert_match %r|Stripping symbols from extensions|, @ui.output
+    refute_match %r|#{RbConfig::CONFIG["STRIP"]}|, @ui.output
+    assert_match %r|using 'echo strip-custom'|, @ui.output
+  ensure
+    restore_simple_run
+  end
+
+  ##
+  # Replace `simple_run` to help testing command execution
+
+  def hook_simple_run
+    Gem::Compiler.class_eval do
+      alias_method :orig_simple_run, :simple_run
+      remove_method :simple_run
+
+      def simple_run(command, command_name)
+        say "#{command_name}: #{command}"
+      end
+    end
+  end
+
+  ##
+  # Restore `simple_run` to its original version
+
+  def restore_simple_run
+    Gem::Compiler.class_eval do
+      remove_method :simple_run
+      alias_method :simple_run, :orig_simple_run
+    end
+  end
+
   ##
   # Reset RubyGems platform to original one. Useful when testing platform
   # specific features (like compiled extensions)
@@ -375,6 +451,45 @@ class TestGemCompiler < Gem::TestCase
     end
 
     File.join @tempdir, "gems", "#{spec.full_name}.gem"
+  end
+
+  ##
+  # Add a dummy, valid extension to provided spec
+
+  def util_dummy_extension(spec, name = "a")
+    extconf = File.join("ext", name, "extconf.rb")
+    dummy_c = File.join("ext", name, "dummy.c")
+
+    spec.extensions << extconf
+    spec.files << dummy_c
+
+    dir = spec.gem_dir
+    FileUtils.mkdir_p dir
+
+    Dir.chdir dir do
+      FileUtils.mkdir_p File.dirname(extconf)
+
+      # extconf.rb
+      File.open extconf, "w" do |f|
+        f.write <<~EOF
+          require "mkmf"
+
+          create_makefile("#{name}")
+        EOF
+      end
+
+      # dummy.c
+      File.open dummy_c, "w" do |f|
+        f.write <<~EOF
+          #include <ruby.h>
+
+          void Init_#{name}(void)
+          {
+              rb_p(ID2SYM(rb_intern("ok")));
+          }
+        EOF
+      end
+    end
   end
 
   ##

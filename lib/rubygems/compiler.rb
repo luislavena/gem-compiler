@@ -1,4 +1,5 @@
 require "fileutils"
+require "open3"
 require "rbconfig"
 require "tmpdir"
 require "rubygems/installer"
@@ -24,6 +25,8 @@ class Gem::Compiler
     build_extensions
 
     artifacts = collect_artifacts
+
+    strip_artifacts artifacts
 
     if shared_dir = options[:include_shared_dir]
       shared_libs = collect_shared(shared_dir)
@@ -176,6 +179,45 @@ class Gem::Compiler
 
     # return the path of the gem
     output_gem
+  end
+
+  def simple_run(command, command_name)
+    begin
+      output, status = Open3.capture2e(*command)
+    rescue => error
+      raise Gem::CompilerError, "#{command_name} failed#{error.message}"
+    end
+
+    yield(status, output) if block_given?
+
+    unless status.success?
+      exit_reason =
+        if status.exited?
+          ", exit code #{status.exitstatus}"
+        elsif status.signaled?
+          ", uncaught signal #{status.termsig}"
+        end
+
+      raise Gem::CompilerError, "#{command_name} failed#{exit_reason}"
+    end
+  end
+
+  def strip_artifacts(artifacts)
+    return unless options[:strip]
+
+    strip_cmd = options[:strip_cmd] || RbConfig::CONFIG["STRIP"]
+
+    info "Stripping symbols from extensions (using '#{strip_cmd}')..."
+
+    artifacts.each do |artifact|
+      cmd = [strip_cmd, artifact].join(' ').rstrip
+
+      simple_run(cmd, "strip #{File.basename(artifact)}") do |status, output|
+        if status.success?
+          debug "Stripped #{File.basename(artifact)}"
+        end
+      end
+    end
   end
 
   def tmp_dir
