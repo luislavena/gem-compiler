@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rubygems/package_task"
 
 gemspec = Gem::Specification.load("gem-compiler.gemspec")
