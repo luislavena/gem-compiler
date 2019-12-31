@@ -147,6 +147,38 @@ expose different options on the API. The binary might be expecting specific
 features not present in the version of Ruby you're installing the binary gem
 into.
 
+#### Reducing extension's size (stripping)
+
+By default, RubyGems do not strip symbols from compiled extensions, including
+debugging information and can result in increased size of final package.
+
+With `--strip`, you can reduce extensions by using same stripping options used
+by Ruby itself (see `RbConfig::CONFIG["STRIP"]`):
+
+```console
+$ gem compile oj-3.10.0.gem --strip
+Unpacking gem: 'oj-3.10.0' in temporary directory...
+Building native extensions. This could take a while...
+Stripping symbols from extensions (using 'strip -S -x')...
+  Successfully built RubyGem
+  Name: oj
+  Version: 3.10.0
+  File: oj-3.10.0-x86_64-linux.gem
+```
+
+Or you can provide your own stripping command instead using `--strip-cmd`:
+
+```console
+$ gem compile oj-3.10.0.gem --strip-cmd "strip --strip-unneeded"
+Unpacking gem: 'oj-3.10.0' in temporary directory...
+Building native extensions. This could take a while...
+Stripping symbols from extensions (using 'strip --strip-unneeded')...
+  Successfully built RubyGem
+  Name: oj
+  Version: 3.10.0
+  File: oj-3.10.0-x86_64-linux.gem
+```
+
 ### Compiling from Rake
 
 Most of the times, as gem developer, you would like to generate both kind of

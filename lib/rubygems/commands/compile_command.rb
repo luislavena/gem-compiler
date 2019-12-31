@@ -20,6 +20,15 @@ class Gem::Commands::CompileCommand < Gem::Command
     add_option "-N", "--no-abi-lock", "Do not lock compiled Gem to Ruby's ABI" do |value, options|
       options[:no_abi_lock] = true
     end
+
+    add_option "-S", "--strip", "Strip symbols from generated binaries" do |value, options|
+      options[:strip] = true
+    end
+
+    add_option "--strip-cmd CMD", "Strip command with args to use (implies --strip)" do |value, options|
+      options[:strip] = true
+      options[:strip_cmd] = value
+    end
   end
 
   def arguments
