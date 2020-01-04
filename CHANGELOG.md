@@ -11,7 +11,7 @@ upgrading.
 ## [Unreleased]
 
 ### Added
-- Allow symbol stripping from extensions (using `--strip` and/or `--strip-cmd`). (#40)
+- Allow symbol stripping from extensions (using `--strip`). (#40)
 
 ### Fixed
 - Solve upcoming RubyGems deprecation warnings

@@ -207,7 +207,7 @@ class Gem::Compiler
   def strip_artifacts(artifacts)
     return unless options[:strip]
 
-    strip_cmd = options[:strip_cmd] || RbConfig::CONFIG["STRIP"]
+    strip_cmd = options[:strip]
 
     info "Stripping symbols from extensions (using '#{strip_cmd}')..."
 
