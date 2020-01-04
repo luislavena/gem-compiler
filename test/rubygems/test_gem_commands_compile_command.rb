@@ -22,4 +22,16 @@ class TestGemCommandsCompileCommand < Gem::TestCase
 
     assert_match %r{Please specify a gem file on the command line}, e.message
   end
+
+  def test_handle_strip_default
+    @cmd.handle_options %w[--strip]
+
+    assert_equal RbConfig::CONFIG["STRIP"], @cmd.options[:strip]
+  end
+
+  def test_handle_strip_custom
+    @cmd.handle_options ["--strip", "strip --custom"]
+
+    assert_equal "strip --custom", @cmd.options[:strip]
+  end
 end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "rbconfig"
 require "rubygems/command"
 
 class Gem::Commands::CompileCommand < Gem::Command
@@ -23,13 +24,12 @@ class Gem::Commands::CompileCommand < Gem::Command
       options[:no_abi_lock] = true
     end
 
-    add_option "-S", "--strip", "Strip symbols from generated binaries" do |value, options|
-      options[:strip] = true
-    end
-
-    add_option "--strip-cmd CMD", "Strip command with args to use (implies --strip)" do |value, options|
-      options[:strip] = true
-      options[:strip_cmd] = value
+    add_option "-S", "--strip [CMD]", "Strip symbols from generated binaries" do |value, options|
+      if value.nil? || value.empty?
+        options[:strip] = RbConfig::CONFIG["STRIP"]
+      else
+        options[:strip] = value
+      end
     end
   end
 

@@ -356,33 +356,7 @@ class TestGemCompiler < Gem::TestCase
     assert_equal spec.required_ruby_version, Gem::Requirement.new(">= 0")
   end
 
-  def test_compile_strip_default_rbconfig
-    util_reset_arch
-    hook_simple_run
-
-    old_strip, RbConfig::CONFIG["STRIP"] = RbConfig::CONFIG["STRIP"], "echo strip-exec"
-
-    gem_file = util_bake_gem("foo") do |spec|
-      util_dummy_extension spec, "bar"
-    end
-
-    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :strip => true)
-    output_gem = nil
-
-    use_ui @ui do
-      output_gem = compiler.compile
-    end
-
-    spec = util_read_spec File.join(@output_dir, output_gem)
-    assert_includes spec.files, "lib/bar.#{RbConfig::CONFIG["DLEXT"]}"
-
-    assert_match %r|Stripping symbols from extensions|, @ui.output
-    assert_match %r|using 'echo strip-exec'|, @ui.output
-  ensure
-    restore_simple_run
-  end
-
-  def test_compile_strip_custom_cmd
+  def test_compile_strip_cmd
     util_reset_arch
     hook_simple_run
 
@@ -391,7 +365,7 @@ class TestGemCompiler < Gem::TestCase
     end
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir,
-                                :strip => true, :strip_cmd => "echo strip-custom")
+                                :strip => "echo strip-custom")
     output_gem = nil
 
     use_ui @ui do
