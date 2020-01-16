@@ -161,7 +161,7 @@ class Gem::Compiler
     # adjust version of Ruby
     unless @options[:no_abi_lock]
       ruby_abi = RbConfig::CONFIG["ruby_version"]
-      gemspec.required_ruby_version = "~> #{ruby_abi}"
+      gemspec.required_ruby_version = "#{@options[:hard_abi_lock] ? '' : '~>'} #{ruby_abi}"
     end
 
     # build new gem

@@ -24,6 +24,10 @@ class Gem::Commands::CompileCommand < Gem::Command
       options[:no_abi_lock] = true
     end
 
+    add_option "-H", "--hard-abi-lock", "Lock compiled gem to patch-specific version of Ruby's ABI" do |value, options|
+      options[:hard_abi_lock] = true
+    end
+
     add_option "-S", "--strip [CMD]", "Strip symbols from generated binaries" do |value, options|
       if value.nil? || value.empty?
         options[:strip] = RbConfig::CONFIG["STRIP"]

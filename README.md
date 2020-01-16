@@ -132,11 +132,11 @@ process:
 
 #### Restrictions of binaries
 
-Gems compiled with `gem-compiler` will be lock to the version of Ruby used
+Gems compiled with `gem-compiler` will be locked to the version of Ruby used
 to compile them.
 
-This means that a gem compiled under Ruby 2.2 could only be installed under
-Ruby 2.2.
+This means that a gem compiled under Ruby 2.2.1 could only be installed under
+Ruby ~> 2.2.x.
 
 You can disable this by using `--no-abi-lock` option during compilation:
 
@@ -146,6 +146,13 @@ You can disable this by using `--no-abi-lock` option during compilation:
 expose different options on the API. The binary might be expecting specific
 features not present in the version of Ruby you're installing the binary gem
 into.
+
+You can also force the gem to only be installed on the exact version of Ruby
+that was used to compile it using the `--hard-abi-lock` option:
+
+    $ gem compile yajl-ruby-1.1.0.gem --hard-abi-lock
+
+**Note**: The `--no-abi-lock` will supercede the `--hard-abi-lock` option.
 
 #### Reducing extension's size (stripping)
 
