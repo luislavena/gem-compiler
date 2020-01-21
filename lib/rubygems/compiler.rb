@@ -151,6 +151,11 @@ class Gem::Compiler
     installer
   end
 
+  def ruby_lock_version
+    cfg = RbConfig::CONFIG
+    "#{cfg["MAJOR"]}.#{cfg["MINOR"]}.#{cfg["TEENY"]}.#{cfg["PATCHLEVEL"]}"
+  end
+
   def repackage(gemspec)
     # clear out extensions from gemspec
     gemspec.extensions.clear
@@ -160,8 +165,8 @@ class Gem::Compiler
 
     # adjust version of Ruby
     unless @options[:no_abi_lock]
-      ruby_abi = RbConfig::CONFIG["ruby_version"]
-      gemspec.required_ruby_version = "#{@options[:hard_abi_lock] ? '' : '~>'} #{ruby_abi}"
+      ruby_version = @options[:hard_abi_lock] ? ruby_lock_version : RbConfig::CONFIG["ruby_version"]
+      gemspec.required_ruby_version = "~> #{ruby_version}"
     end
 
     # build new gem

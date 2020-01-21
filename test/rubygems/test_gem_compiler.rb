@@ -338,7 +338,6 @@ class TestGemCompiler < Gem::TestCase
   def test_compile_hard_lock_ruby_abi
     util_reset_arch
 
-    ruby_abi = RbConfig::CONFIG["ruby_version"]
     artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
 
     gem_file = util_bake_gem("foo") { |s|
@@ -346,6 +345,7 @@ class TestGemCompiler < Gem::TestCase
     }
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :hard_abi_lock => true)
+    ruby_version = compiler.send(:ruby_lock_version)
     output_gem = nil
 
     use_ui @ui do
@@ -354,7 +354,7 @@ class TestGemCompiler < Gem::TestCase
 
     spec = util_read_spec File.join(@output_dir, output_gem)
 
-    assert_equal spec.required_ruby_version, Gem::Requirement.new("#{ruby_abi}")
+    assert_equal spec.required_ruby_version, Gem::Requirement.new("~> #{ruby_version}")
   end
 
   def test_compile_no_lock_ruby_abi
