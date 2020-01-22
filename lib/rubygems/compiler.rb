@@ -153,7 +153,7 @@ class Gem::Compiler
 
   def ruby_lock_version
     cfg = RbConfig::CONFIG
-    "#{cfg["MAJOR"]}.#{cfg["MINOR"]}.#{cfg["TEENY"]}.#{cfg["PATCHLEVEL"]}"
+    "#{cfg["MAJOR"]}.#{cfg["MINOR"]}.#{cfg["TEENY"]}.0"
   end
 
   def repackage(gemspec)
