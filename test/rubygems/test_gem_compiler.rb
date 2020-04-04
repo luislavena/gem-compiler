@@ -332,7 +332,7 @@ class TestGemCompiler < Gem::TestCase
 
     spec = util_read_spec File.join(@output_dir, output_gem)
 
-    assert_equal spec.required_ruby_version, Gem::Requirement.new("~> #{ruby_abi}")
+    assert_equal Gem::Requirement.new("~> #{ruby_abi}"), spec.required_ruby_version
   end
 
   def test_compile_no_lock_ruby_abi
@@ -353,7 +353,7 @@ class TestGemCompiler < Gem::TestCase
 
     spec = util_read_spec File.join(@output_dir, output_gem)
 
-    assert_equal spec.required_ruby_version, Gem::Requirement.new(">= 0")
+    assert_equal Gem::Requirement.new(">= 0"), spec.required_ruby_version
   end
 
   def test_compile_strip_cmd
