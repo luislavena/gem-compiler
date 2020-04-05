@@ -19,8 +19,8 @@ jobs:
           - '2.5.7'
           - '2.4.9'
     steps:
-    - uses: actions/checkout@722adc63f1aa60a57ec37892e133b1d319cae598
-    - uses: actions/cache@cffae9552bb9f84b9812c1ee9ea2e3c0a70a797e
+    - uses: actions/checkout@94c2de77cccf605d74201a8aec6dd8fc0717ad66
+    - uses: actions/cache@f60097cd16988b176c31ed5e2db51d50a8d19a4e
       id: cache
       with:
         path: ~/local/rubies
