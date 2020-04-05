@@ -11,8 +11,8 @@ upgrading.
 ## [Unreleased]
 
 ### Added
-- Allow symbol stripping from extensions (using `--strip`). (#40)
-- Introduce more strict Ruby version locking (using `--abi-lock`). (#51)
+- Allow symbol stripping from extensions (using `--strip`). (#40, #48, #50)
+- Introduce more strict Ruby version locking (using `--abi-lock`). (#51, #52)
 
 ### Fixed
 - Solve upcoming RubyGems deprecation warnings
@@ -20,7 +20,7 @@ upgrading.
 ### Changed
 - Deal with RubyGems 3.x `new_spec` deprecation in tests.
 - CI: Replace Travis/AppVeyor with GitHub Actions for Ubuntu, macOS and Windows.
-- No longer raise exceptions when executed against non-compilable gems. (#38)
+- No longer raise exceptions when executed against non-compilable gems. (#38, #47)
 
 ### Removed
 - Drop support for Ruby 2.3.x, as it reached EOL (End Of Life)
