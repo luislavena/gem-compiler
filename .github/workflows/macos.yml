@@ -14,10 +14,10 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - '2.7.0'
-          - '2.6.5'
-          - '2.5.7'
-          - '2.4.9'
+          - '2.7'
+          - '2.6'
+          - '2.5'
+          - '2.4'
     steps:
     - uses: actions/checkout@94c2de77cccf605d74201a8aec6dd8fc0717ad66
     - uses: actions/cache@f60097cd16988b176c31ed5e2db51d50a8d19a4e
@@ -26,7 +26,7 @@ jobs:
         path: ~/local/rubies
         key: ${{ runner.os }}-ruby-${{ matrix.ruby }}
     - name: Set up Ruby
-      uses: clupprich/ruby-build-action@d2971553edbe27a9cb7e277f22b549114bfd3ccf
+      uses: ruby/setup-ruby@463c3a8161c756a091bafff34d5b295036152d41
       id: ruby
       with:
         ruby-version: ${{ matrix.ruby }}
