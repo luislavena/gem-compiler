@@ -14,13 +14,14 @@ jobs:
     strategy:
       matrix:
         ruby:
+          - '2.7.x'
           - '2.6.x'
           - '2.5.x'
           - '2.4.x'
     steps:
-    - uses: actions/checkout@722adc63f1aa60a57ec37892e133b1d319cae598
+    - uses: actions/checkout@94c2de77cccf605d74201a8aec6dd8fc0717ad66
     - name: Set up Ruby
-      uses: MSP-Greg/actions-ruby@d22008bd83cc7a488e9e162a950deb9137b64766
+      uses: MSP-Greg/actions-ruby@164cd7048c050264a0360510c572e1d4472b4bfb
       with:
         ruby-version: ${{ matrix.ruby }}
     - name: Install Bundler
