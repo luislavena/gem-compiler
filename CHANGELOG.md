@@ -10,6 +10,8 @@ upgrading.
 
 ## [Unreleased]
 
+## [0.9.0] - 2020-04-05
+
 ### Added
 - Allow symbol stripping from extensions (using `--strip`). (#40, #48, #50)
 - Introduce more strict Ruby version locking (using `--abi-lock`). (#51, #52)
@@ -110,7 +112,8 @@ upgrading.
 
 - Initial public release, extracted from internal project.
 
-[Unreleased]: https://github.com/luislavena/gem-compiler/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/luislavena/gem-compiler/compare/v0.9.0...HEAD
+[0.8.0]: https://github.com/luislavena/gem-compiler/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/luislavena/gem-compiler/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/luislavena/gem-compiler/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/luislavena/gem-compiler/compare/v0.5.0...v0.6.0
