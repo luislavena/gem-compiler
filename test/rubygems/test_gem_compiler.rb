@@ -404,6 +404,9 @@ class TestGemCompiler < Gem::TestCase
     util_reset_arch
     hook_simple_run
 
+    old_rbconfig_strip = RbConfig::CONFIG["STRIP"]
+    RbConfig::CONFIG["STRIP"] = "rbconfig-strip-cmd"
+
     gem_file = util_bake_gem("foo") do |spec|
       util_dummy_extension spec, "bar"
     end
@@ -423,6 +426,7 @@ class TestGemCompiler < Gem::TestCase
     refute_match %r|#{RbConfig::CONFIG["STRIP"]}|, @ui.output
     assert_match %r|using 'echo strip-custom'|, @ui.output
   ensure
+    RbConfig::CONFIG["STRIP"] = old_rbconfig_strip
     restore_simple_run
   end
 
