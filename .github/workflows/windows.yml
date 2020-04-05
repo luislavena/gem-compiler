@@ -33,5 +33,7 @@ jobs:
     - name: Run test
       run: |
         rake test
+    - name: Run packaging
+      run: |
         rake package
         gem install --local pkg/gem-compiler-*.gem
