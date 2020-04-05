@@ -149,14 +149,14 @@ class Gem::Compiler
 
     # Hmm, gem already compiled?
     if installer.spec.platform != Gem::Platform::RUBY
-      info "The gem file seems to be compiled already. Done."
+      info "The gem file seems to be compiled already. Skipping."
       cleanup
       terminate_interaction
     end
 
     # Hmm, no extensions?
     if installer.spec.extensions.empty?
-      info "There are no extensions to build on this gem file. Done."
+      info "There are no extensions to build on this gem file. Skipping."
       cleanup
       terminate_interaction
     end

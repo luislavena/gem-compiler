@@ -35,7 +35,7 @@ class TestGemCompiler < Gem::TestCase
 
     out = @ui.output.split "\n"
 
-    assert_equal "There are no extensions to build on this gem file. Done.",
+    assert_equal "There are no extensions to build on this gem file. Skipping.",
                   out.last
   end
 
@@ -52,7 +52,7 @@ class TestGemCompiler < Gem::TestCase
 
     out = @ui.output.split "\n"
 
-    assert_equal "The gem file seems to be compiled already. Done.", out.last
+    assert_equal "The gem file seems to be compiled already. Skipping.", out.last
   end
 
   def test_compile_pre_install_hooks
