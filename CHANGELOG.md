@@ -12,6 +12,7 @@ upgrading.
 
 ### Added
 - Allow symbol stripping from extensions (using `--strip`). (#40)
+- Introduce more strict Ruby version locking (using `--abi-lock`). (#51)
 
 ### Fixed
 - Solve upcoming RubyGems deprecation warnings

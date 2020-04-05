@@ -130,22 +130,27 @@ process:
     Successfully installed nokogiri-1.6.6.2-x86_64-darwin-12
     1 gem installed
 
-#### Restrictions of binaries
+#### Restricting generated binary gems
 
-Gems compiled with `gem-compiler` will be lock to the version of Ruby used
-to compile them.
+Gems compiled with `gem-compiler` be lock to the version of Ruby used
+to compile them, following Ruby's ABI compatibility (`MAJOR.MINOR`)
 
-This means that a gem compiled under Ruby 2.2 could only be installed under
-Ruby 2.2.
+This means that a gem compiled with Ruby 2.6.1 could be installed in any
+version of Ruby 2.6.x (Eg. 2.6.4).
 
-You can disable this by using `--no-abi-lock` option during compilation:
+You can tweak this behavior by using `--abi-lock` option during compilation.
+There are 3 available modes:
 
-    $ gem compile yajl-ruby-1.1.0.gem --no-abi-lock
+* `ruby`: Follows Ruby's ABI. Gems compiled with Ruby 2.6.1 can be installed
+  in any Ruby 2.6.x (default behavior).
+* `strict`: Uses Ruby's full version. Gems compiled with Ruby 2.6.1 can only
+  be installed in Ruby 2.6.1.
+* `none`: Disables Ruby compatibility. Gems compiled with this option can be
+  installed on any version of Ruby (alias for `--no-abi-lock`).
 
-**Warning**: this is not recommended since different versions of Ruby might
-expose different options on the API. The binary might be expecting specific
-features not present in the version of Ruby you're installing the binary gem
-into.
+**Warning**: usage of `none` is not recommended since different versions of
+Ruby might expose different APIs. The binary might be expecting specific
+features not present in the version of Ruby you're installing the gem into.
 
 #### Reducing extension's size (stripping)
 

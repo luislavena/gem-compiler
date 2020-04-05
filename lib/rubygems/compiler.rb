@@ -49,6 +49,19 @@ class Gem::Compiler
 
   private
 
+  def adjust_abi_lock(gemspec)
+    abi_lock = @options[:abi_lock] || :ruby
+    case abi_lock
+    when :ruby
+      ruby_abi = RbConfig::CONFIG["ruby_version"]
+      gemspec.required_ruby_version = "~> #{ruby_abi}"
+    when :strict
+      cfg = RbConfig::CONFIG
+      ruby_abi = "#{cfg["MAJOR"]}.#{cfg["MINOR"]}.#{cfg["TEENY"]}.0"
+      gemspec.required_ruby_version = "~> #{ruby_abi}"
+    end
+  end
+
   def adjust_gemspec_files(gemspec, artifacts)
     # remove any non-existing files
     if @options[:prune]
@@ -159,10 +172,7 @@ class Gem::Compiler
     gemspec.platform = Gem::Platform::CURRENT
 
     # adjust version of Ruby
-    unless @options[:no_abi_lock]
-      ruby_abi = RbConfig::CONFIG["ruby_version"]
-      gemspec.required_ruby_version = "~> #{ruby_abi}"
-    end
+    adjust_abi_lock(gemspec)
 
     # build new gem
     output_gem = nil

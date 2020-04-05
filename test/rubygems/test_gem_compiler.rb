@@ -313,7 +313,7 @@ class TestGemCompiler < Gem::TestCase
     util_reset_arch
   end
 
-  def test_compile_lock_ruby_abi
+  def test_compile_abi_lock_ruby
     util_reset_arch
 
     ruby_abi = RbConfig::CONFIG["ruby_version"]
@@ -323,7 +323,7 @@ class TestGemCompiler < Gem::TestCase
       util_fake_extension s, "foo", util_custom_configure(artifact)
     }
 
-    compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :abi_lock => nil)
     output_gem = nil
 
     use_ui @ui do
@@ -335,7 +335,51 @@ class TestGemCompiler < Gem::TestCase
     assert_equal Gem::Requirement.new("~> #{ruby_abi}"), spec.required_ruby_version
   end
 
-  def test_compile_no_lock_ruby_abi
+  def test_compile_abi_lock_explicit_ruby
+    util_reset_arch
+
+    ruby_abi = RbConfig::CONFIG["ruby_version"]
+    artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
+
+    gem_file = util_bake_gem("foo") { |s|
+      util_fake_extension s, "foo", util_custom_configure(artifact)
+    }
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :abi_lock => :ruby)
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_equal Gem::Requirement.new("~> #{ruby_abi}"), spec.required_ruby_version
+  end
+
+  def test_compile_abi_lock_strict
+    util_reset_arch
+
+    ruby_abi = "%d.%d.%d.0" % RbConfig::CONFIG.values_at("MAJOR", "MINOR", "TEENY")
+    artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
+
+    gem_file = util_bake_gem("foo") { |s|
+      util_fake_extension s, "foo", util_custom_configure(artifact)
+    }
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :abi_lock => :strict)
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_equal Gem::Requirement.new("~> #{ruby_abi}"), spec.required_ruby_version
+  end
+
+  def test_compile_abi_lock_none
     util_reset_arch
 
     artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
@@ -344,7 +388,7 @@ class TestGemCompiler < Gem::TestCase
       util_fake_extension s, "foo", util_custom_configure(artifact)
     }
 
-    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :no_abi_lock => true)
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :abi_lock => :none)
     output_gem = nil
 
     use_ui @ui do
