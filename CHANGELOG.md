@@ -10,6 +10,9 @@ upgrading.
 
 ## [Unreleased]
 
+## Changed
+- Fix Code Climate maintainability badge
+
 ## [0.9.0] - 2020-04-05
 
 ### Added
