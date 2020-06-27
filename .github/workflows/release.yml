@@ -15,14 +15,14 @@ jobs:
           # use always oldest supported version
           - '2.4'
     steps:
-    - uses: actions/checkout@94c2de77cccf605d74201a8aec6dd8fc0717ad66
-    - uses: actions/cache@f60097cd16988b176c31ed5e2db51d50a8d19a4e
+    - uses: actions/checkout@v2.3.1
+    - uses: actions/cache@v2.0.0
       id: cache
       with:
         path: ~/local/rubies
         key: ${{ runner.os }}-ruby-${{ matrix.ruby }}
     - name: Set up Ruby
-      uses: ruby/setup-ruby@463c3a8161c756a091bafff34d5b295036152d41
+      uses: ruby/setup-ruby@v1.38.0
       id: ruby
       with:
         ruby-version: ${{ matrix.ruby }}
@@ -47,7 +47,7 @@ jobs:
         GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_AUTH_TOKEN }}
     - name: Create Release
       id: create_release
-      uses: actions/create-release@8f324cdc2e5470815db0a286b4b3aa7803c0e6ef
+      uses: actions/create-release@v1.1.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
