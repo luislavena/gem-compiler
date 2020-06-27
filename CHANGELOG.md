@@ -12,6 +12,7 @@ upgrading.
 
 ## Changed
 - Fix Code Climate maintainability badge
+- Update GitHub actions to latest versions
 
 ## [0.9.0] - 2020-04-05
 
