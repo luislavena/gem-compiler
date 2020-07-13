@@ -65,7 +65,7 @@ class TestGemCommandsCompileCommand < Gem::TestCase
   def test_handle_ext_version_number
     @cmd.handle_options ["--ext-version-number=1"]
 
-    assert_equal :none, @cmd.options[:ext_version_number]
+    assert_equal "1", @cmd.options[:ext_version_number]
   end
 
   def test_handle_strip_default
