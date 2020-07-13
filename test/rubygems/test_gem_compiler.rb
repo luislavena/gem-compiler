@@ -410,10 +410,11 @@ class TestGemCompiler < Gem::TestCase
     }
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :ext_version_number => 'a')
-    output_gem = nil
 
-    use_ui @ui do
-      output_gem = compiler.compile
+    assert_raises Gem::MockGemUi::SystemExitException do
+      use_ui @ui do
+        compiler.compile
+      end
     end
 
     out = @ui.output.split "\n"
@@ -438,10 +439,9 @@ class TestGemCompiler < Gem::TestCase
       output_gem = compiler.compile
     end
 
-    previous_spec = util_read_spec gem_file
     spec = util_read_spec File.join(@output_dir, output_gem)
 
-    assert_equal previous_spec.version.to_s + '.1', spec.version.to_s
+    assert_equal Gem::Requirement.new("1.1"), spec.version
   end
 
   def test_compile_strip_cmd
