@@ -400,6 +400,50 @@ class TestGemCompiler < Gem::TestCase
     assert_equal Gem::Requirement.new(">= 0"), spec.required_ruby_version
   end
 
+  def test_compile_ext_version_number_wrong
+    util_reset_arch
+
+    artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
+
+    gem_file = util_bake_gem("foo") { |s|
+      util_fake_extension s, "foo", util_custom_configure(artifact)
+    }
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :ext_version_number => 'a')
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    out = @ui.output.split "\n"
+
+    assert_equal "The extension version number is not a positive number. Skipping.",
+                  out.last
+  end
+
+  def test_compile_ext_version_number_right
+    util_reset_arch
+
+    artifact = "foo.#{RbConfig::CONFIG["DLEXT"]}"
+
+    gem_file = util_bake_gem("foo") { |s|
+      util_fake_extension s, "foo", util_custom_configure(artifact)
+    }
+
+    compiler = Gem::Compiler.new(gem_file, :output => @output_dir, :ext_version_number => 1)
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    previous_spec = util_read_spec gem_file
+    spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_equal Gem::Requirement.new(previous_spec.version + '.1'), spec.version
+  end
+
   def test_compile_strip_cmd
     util_reset_arch
     hook_simple_run

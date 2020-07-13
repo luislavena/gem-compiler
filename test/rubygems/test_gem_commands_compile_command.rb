@@ -62,6 +62,12 @@ class TestGemCommandsCompileCommand < Gem::TestCase
                  e.message
   end
 
+  def test_handle_ext_version_number
+    @cmd.handle_options ["--ext-version-number=1"]
+
+    assert_equal :none, @cmd.options[:ext_version_number]
+  end
+
   def test_handle_strip_default
     @cmd.handle_options %w[--strip]
 

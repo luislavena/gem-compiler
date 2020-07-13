@@ -41,6 +41,16 @@ class Gem::Compiler
 
     adjust_gemspec_files gemspec, artifacts
 
+    if ext_version_number = options[:ext_version_number]
+      if ext_version_number.to_i > 0
+        gemspec.version += '.' + ext_version_number.to_i
+      else
+        info "The extension version number is not a positive number. Skipping."
+        cleanup
+        terminate_interaction
+      end
+    end
+
     # generate new gem and return new path to it
     repackage gemspec
   ensure

@@ -30,6 +30,10 @@ class Gem::Commands::CompileCommand < Gem::Command
       options[:prune] = true
     end
 
+    add_option "--ext-version-number NUMBER", "Add an extension number at the end of the gem version" do |value, options|
+      options[:ext_version_number] = value
+    end
+
     add_option "--abi-lock MODE",
       "Lock to version of Ruby (ruby, strict, none)" do |value, options|
 
