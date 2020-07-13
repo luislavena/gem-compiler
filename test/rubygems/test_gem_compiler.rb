@@ -441,7 +441,7 @@ class TestGemCompiler < Gem::TestCase
 
     spec = util_read_spec File.join(@output_dir, output_gem)
 
-    assert_equal Gem::Requirement.new("1.1"), spec.version
+    assert_equal Gem::Version.new("1.1"), spec.version
   end
 
   def test_compile_strip_cmd
