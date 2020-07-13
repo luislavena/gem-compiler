@@ -43,7 +43,7 @@ class Gem::Compiler
 
     if ext_version_number = options[:ext_version_number]
       if ext_version_number.to_i > 0
-        gemspec.version += '.' + ext_version_number
+        gemspec.version += '.' + ext_version_number.to_s
       else
         info "The extension version number is not a positive number. Skipping."
         cleanup
