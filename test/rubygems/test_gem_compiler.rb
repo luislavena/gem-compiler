@@ -474,7 +474,9 @@ class TestGemCompiler < Gem::TestCase
       new_spec name, "1", nil, files, &block
     end
 
-    File.join @tempdir, "gems", "#{spec.full_name}.gem"
+    util_build_gem spec
+
+    spec.cache_file
   end
 
   ##
