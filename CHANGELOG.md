@@ -13,6 +13,7 @@ upgrading.
 ## Changed
 - Fix Code Climate maintainability badge
 - Update GitHub actions to latest versions
+- CI: Test against Ruby 'head' (3.0) version
 
 ## [0.9.0] - 2020-04-05
 

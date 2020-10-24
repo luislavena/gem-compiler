@@ -35,5 +35,7 @@ EOF
 
   # development dependencies
   spec.add_development_dependency "rake", "~> 12.0", ">= 12.0.0"
-  spec.add_development_dependency "minitest", "~> 4.7"
+
+  # minitest 5.14.2 is required to support Ruby 3.0
+  spec.add_development_dependency "minitest", "~> 5.14", ">= 5.14.2"
 end
