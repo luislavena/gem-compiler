@@ -256,7 +256,7 @@ class TestGemCompiler < Gem::TestCase
 
         FileUtils.touch "#{artifact}"
 
-        File.open 'Rakefile', 'w' do |rf| rf.puts "task :default" end
+        File.write('Rakefile', "task :default")
       EOF
     }
 
@@ -292,7 +292,7 @@ class TestGemCompiler < Gem::TestCase
 
         FileUtils.touch "#{artifact}"
 
-        File.open 'Rakefile', 'w' do |rf| rf.puts "task :default" end
+        File.write('Rakefile', "task :default")
       EOF
     }
 
