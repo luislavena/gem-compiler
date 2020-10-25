@@ -554,9 +554,10 @@ class TestGemCompiler < Gem::TestCase
     <<-EO_MKRF
       File.open("Rakefile", "w") do |f|
         f.puts <<-EOF
+          require 'fileutils'
           task :default do
             lib_dir = ENV["RUBYARCHDIR"] || ENV["RUBYLIBDIR"]
-            touch File.join(lib_dir, #{target.inspect})
+            FileUtils.touch File.join(lib_dir, #{target.inspect})
           end
         EOF
       end
