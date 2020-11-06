@@ -13,11 +13,11 @@ Gem::Specification.new do |spec|
 
   # description
   spec.summary = "A RubyGems plugin that generates binary gems."
-  spec.description = <<-EOF
-A RubyGems plugin that helps generates binary gems from already existing
-ones without altering the original source code. It compiles Ruby C
-extensions and bundles the result into a new gem.
-EOF
+  spec.description = <<~EOF
+    A RubyGems plugin that helps generates binary gems from already existing
+    ones without altering the original source code. It compiles Ruby C
+    extensions and bundles the result into a new gem.
+  EOF
 
   # project info
   spec.homepage = "https://github.com/luislavena/gem-compiler"

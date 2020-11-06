@@ -137,7 +137,7 @@ class TestGemCompiler < Gem::TestCase
 
     gem_file = util_bake_gem(name, 'ports/to_be_deleted_during_ext_build.patch') { |spec|
       old_spec = spec
-      util_fake_extension spec, name, <<-EOF
+      util_fake_extension spec, name, <<~EOF
         require 'fileutils'
         FileUtils.rm File.expand_path(File.join(File.dirname(__FILE__), '../../ports/to_be_deleted_during_ext_build.patch'))
         #{util_custom_configure(artifact)}
@@ -251,12 +251,12 @@ class TestGemCompiler < Gem::TestCase
 
     gem_file = util_bake_gem(name) { |spec|
       old_spec = spec
-      util_fake_extension spec, name, <<-EOF
+      util_fake_extension spec, name, <<~EOF
         require "fileutils"
 
         FileUtils.touch "#{artifact}"
 
-        File.open 'Rakefile', 'w' do |rf| rf.puts "task :default" end
+        File.write('Rakefile', "task :default")
       EOF
     }
 
@@ -287,12 +287,12 @@ class TestGemCompiler < Gem::TestCase
 
     gem_file = util_bake_gem(name) { |spec|
       old_spec = spec
-      util_fake_extension spec, name, <<-EOF
+      util_fake_extension spec, name, <<~EOF
         require "fileutils"
 
         FileUtils.touch "#{artifact}"
 
-        File.open 'Rakefile', 'w' do |rf| rf.puts "task :default" end
+        File.write('Rakefile', "task :default")
       EOF
     }
 
@@ -536,8 +536,8 @@ class TestGemCompiler < Gem::TestCase
         if script
           f.write script
         else
-          f.write <<-EOF
-            File.open 'Rakefile', 'w' do |rf| rf.puts "task :default" end
+          f.write <<~EOF
+            File.write('Rakefile', "task :default")
           EOF
         end
       end
@@ -551,12 +551,13 @@ class TestGemCompiler < Gem::TestCase
   # Provided +target+ will be used to fake an empty file at default task
 
   def util_custom_configure(target)
-    <<-EO_MKRF
+    <<~EO_MKRF
       File.open("Rakefile", "w") do |f|
-        f.puts <<-EOF
+        f.puts <<~EOF
+          require 'fileutils'
           task :default do
             lib_dir = ENV["RUBYARCHDIR"] || ENV["RUBYLIBDIR"]
-            touch File.join(lib_dir, #{target.inspect})
+            FileUtils.touch File.join(lib_dir, #{target.inspect})
           end
         EOF
       end
