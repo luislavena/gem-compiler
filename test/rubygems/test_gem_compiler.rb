@@ -3,14 +3,6 @@
 require "rubygems/test_case"
 require "rubygems/compiler"
 
-# RubyGems 2.6.x introduced a new exception class for unmet requirements
-# Evalute if is present and use it in tests
-if defined?(Gem::RuntimeRequirementNotMetError)
-  GEM_REQUIREMENT_EXCEPTION = Gem::RuntimeRequirementNotMetError
-else
-  GEM_REQUIREMENT_EXCEPTION = Gem::InstallError
-end
-
 class TestGemCompiler < Gem::TestCase
   def setup
     super
@@ -88,7 +80,7 @@ class TestGemCompiler < Gem::TestCase
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
-    e = assert_raises GEM_REQUIREMENT_EXCEPTION do
+    e = assert_raises Gem::RuntimeRequirementNotMetError do
       use_ui @ui do
         compiler.compile
       end
@@ -105,7 +97,7 @@ class TestGemCompiler < Gem::TestCase
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
-    e = assert_raises GEM_REQUIREMENT_EXCEPTION do
+    e = assert_raises Gem::RuntimeRequirementNotMetError do
       use_ui @ui do
         compiler.compile
       end

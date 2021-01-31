@@ -10,10 +10,13 @@ upgrading.
 
 ## [Unreleased]
 
-## Changed
+### Changed
 - Fix Code Climate maintainability badge
 - Update GitHub actions to latest versions
 - CI: Test against Ruby 'head' (3.0) version
+
+### Removed
+- Drop support for Ruby 2.4.x since reached EOL (End Of Life)
 
 ## [0.9.0] - 2020-04-05
 
