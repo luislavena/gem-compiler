@@ -13,7 +13,7 @@ jobs:
       matrix:
         ruby:
           # use always oldest supported version
-          - '2.4'
+          - '2.5'
     steps:
     - uses: actions/checkout@v2.3.4
     - name: Set up Ruby
