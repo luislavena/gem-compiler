@@ -105,6 +105,27 @@ class Gem::Compiler
     Dir.glob("#{target_dir}/#{shared_dir}/**/*.#{libext}")
   end
 
+  def ensure_ruby_version_met(spec)
+    if rrv = spec.required_ruby_version
+      ruby_version = Gem.ruby_version
+      unless rrv.satisfied_by? ruby_version
+        raise Gem::RuntimeRequirementNotMetError,
+          "#{spec.full_name} requires Ruby version #{rrv}. The current ruby version is #{ruby_version}."
+      end
+    end
+  end
+
+  def ensure_rubygems_version_met(spec)
+    if rrgv = spec.required_rubygems_version
+      unless rrgv.satisfied_by? Gem.rubygems_version
+        rg_version = Gem::VERSION
+        raise Gem::RuntimeRequirementNotMetError,
+          "#{spec.full_name} requires RubyGems version #{rrgv}. The current RubyGems version is #{rg_version}. " +
+          "Try 'gem update --system' to update RubyGems itself."
+      end
+    end
+  end
+
   def info(msg)
     say msg if Gem.configuration.verbose
   end
@@ -138,14 +159,10 @@ class Gem::Compiler
     installer.spec.extension_dir = File.join(@target_dir, "lib")
 
     # Ensure Ruby version is met
-    if installer.respond_to?(:ensure_required_ruby_version_met)
-      installer.ensure_required_ruby_version_met
-    end
+    ensure_ruby_version_met(installer.spec)
 
     # Check version of RubyGems (just in case)
-    if installer.respond_to?(:ensure_required_rubygems_version_met)
-      installer.ensure_required_rubygems_version_met
-    end
+    ensure_rubygems_version_met(installer.spec)
 
     # Hmm, gem already compiled?
     if installer.spec.platform != Gem::Platform::RUBY

@@ -81,7 +81,10 @@ class TestGemCompiler < Gem::TestCase
   end
 
   def test_compile_required_ruby
-    gem_file = util_bake_gem("old_required") { |s| s.required_ruby_version = "= 1.4.6" }
+    gem_file = util_bake_gem("old_required") { |spec|
+      spec.required_ruby_version = "= 1.4.6"
+      util_fake_extension spec
+    }
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
@@ -91,11 +94,14 @@ class TestGemCompiler < Gem::TestCase
       end
     end
 
-    assert_match %r|old_required requires Ruby version = 1.4.6|, e.message
+    assert_match %r|requires Ruby version = 1.4.6|, e.message
   end
 
   def test_compile_required_rubygems
-    gem_file = util_bake_gem("old_rubygems") { |s| s.required_rubygems_version = "< 0" }
+    gem_file = util_bake_gem("old_rubygems") { |spec|
+      spec.required_rubygems_version = "< 0"
+      util_fake_extension spec
+    }
 
     compiler = Gem::Compiler.new(gem_file, :output => @output_dir)
 
@@ -105,7 +111,7 @@ class TestGemCompiler < Gem::TestCase
       end
     end
 
-    assert_match %r|old_rubygems requires RubyGems version < 0|, e.message
+    assert_match %r|requires RubyGems version < 0|, e.message
   end
 
   def test_compile_succeed
