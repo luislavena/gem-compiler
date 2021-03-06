@@ -25,6 +25,14 @@ Gem::Specification.new do |spec|
   spec.author = "Luis Lavena"
   spec.email = "luislavena@gmail.com"
 
+  spec.metadata = {
+    "homepage_uri" => spec.homepage,
+    "bug_tracker_uri" => "https://github.com/luislavena/gem-compiler/issues",
+    "documentation_uri" => "https://rubydoc.info/github/luislavena/gem-compiler/master",
+    "changelog_uri" => "https://github.com/luislavena/gem-compiler/blob/master/CHANGELOG.md",
+    "source_code_uri" => spec.homepage,
+  }
+
   # files
   spec.files = Dir["README.md", "CHANGELOG.md", "Rakefile",
                    "lib/**/*.rb", "test/**/test*.rb"]
