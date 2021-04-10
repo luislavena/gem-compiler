@@ -184,7 +184,7 @@ Stripping symbols from extensions (using 'strip --strip-unneeded')...
   File: oj-3.10.0-x86_64-linux.gem
 ```
 
-### Append build number to gem version
+#### Append build number to gem version
 
 Gem servers like RubyGems or Gemstash treat gems as immutable, so once a gem
 has been pushed, you cannot replace it.
