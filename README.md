@@ -184,6 +184,30 @@ Stripping symbols from extensions (using 'strip --strip-unneeded')...
   File: oj-3.10.0-x86_64-linux.gem
 ```
 
+### Append build number to gem version
+
+Gem servers like RubyGems or Gemstash treat gems as immutable, so once a gem
+has been pushed, you cannot replace it.
+
+When playing with compilation options or library dependencies, you might
+require to build and push an updated version of the same version.
+
+You can use `--build-number` to add the build number to the compiled version
+and push an updated build, maintaining gem dependency compatibility:
+
+```console
+$ gem compile oj-3.11.3.gem --build-number 10
+Unpacking gem: 'oj-3.11.3' in temporary directory...
+Building native extensions. This could take a while...
+  Successfully built RubyGem
+  Name: oj
+  Version: 3.11.3.10
+  File: oj-3.11.3.10-x86_64-linux.gem
+```
+
+This new version remains compatible with RubyGems' dependency requirements
+like `~> 3.11` or `~> 3.11.3`.
+
 ### Compiling from Rake
 
 Most of the times, as gem developer, you would like to generate both kind of

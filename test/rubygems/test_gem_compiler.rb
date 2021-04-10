@@ -398,6 +398,27 @@ class TestGemCompiler < Gem::TestCase
     assert_equal Gem::Requirement.new(">= 0"), spec.required_ruby_version
   end
 
+  def test_compile_build_number
+    util_reset_arch
+
+    artifact = "bar.#{RbConfig::CONFIG["DLEXT"]}"
+
+    gem_file = util_bake_gem("bar") { |s|
+      util_fake_extension s, "bar", util_custom_configure(artifact)
+    }
+
+    compiler = Gem::Compiler.new(gem_file, output: @output_dir, build_number: 50)
+    output_gem = nil
+
+    use_ui @ui do
+      output_gem = compiler.compile
+    end
+
+    spec = util_read_spec File.join(@output_dir, output_gem)
+
+    assert_equal Gem::Version.create("1.50"), spec.version
+  end
+
   def test_compile_strip_cmd
     util_reset_arch
     hook_simple_run

@@ -73,4 +73,19 @@ class TestGemCommandsCompileCommand < Gem::TestCase
 
     assert_equal "strip --custom", @cmd.options[:strip]
   end
+
+  def test_handle_build_number
+    @cmd.handle_options %w[--build-number 10]
+
+    assert_equal 10, @cmd.options[:build_number]
+  end
+
+  def test_handle_invalid_build_number
+    e = assert_raises OptionParser::InvalidArgument do
+      @cmd.handle_options %w[--build-number a]
+    end
+
+    assert_equal "invalid argument: --build-number must be a number",
+                  e.message
+  end
 end
