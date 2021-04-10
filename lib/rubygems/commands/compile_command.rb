@@ -53,6 +53,16 @@ class Gem::Commands::CompileCommand < Gem::Command
         options[:strip] = value
       end
     end
+
+    add_option "--build-number NUMBER",
+      "Append build number to compiled Gem version" do |value, options|
+
+      begin
+        options[:build_number] = Integer(value).abs
+      rescue ArgumentError
+        raise OptionParser::InvalidArgument, "must be a number"
+      end
+    end
   end
 
   def arguments

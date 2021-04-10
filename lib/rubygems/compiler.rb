@@ -188,6 +188,11 @@ class Gem::Compiler
     # adjust platform
     gemspec.platform = Gem::Platform::CURRENT
 
+    # adjust gem version
+    if build_number = options[:build_number]
+      gemspec.version = Gem::Version.create("#{gemspec.version}.#{build_number}")
+    end
+
     # adjust version of Ruby
     adjust_abi_lock(gemspec)
 
